@@ -161,7 +161,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
 
 10. **Documentation and Reporting**
     - **Create Build Report**: Generate comprehensive test report following PRD specifications
-      - File path: `.claude-sdlc/builds/test-generation-$ARGUMENTS-$(date +%Y-%m-%d-%H-%M-%S).md`
+      - File path: `.claude-sdlc/builds/test-generation-$ARGUMENTS-$(date +%Y-%m-%d-%H-%M).md`
       - Include timestamp and unique identifier for traceability
 
     - **Report Contents** (aligned with PRD build report requirements):
