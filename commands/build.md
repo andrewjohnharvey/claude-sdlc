@@ -1,37 +1,75 @@
 # Build Command
-Automates the execution of a planned feature by running through its checklist of development tasks. The command loads the feature’s plan and any relevant architecture docs, then carries out each task (using parallel Claude sub-agents for independent items) while verifying success. It pauses and asks for guidance on any failures or uncertainties to ensure safety, then resumes once issues are resolved. After all tasks are finished (or on partial completion), it generates a detailed build report documenting the outcomes.
+
+Automates the execution of a planned feature by running through its checklist of development tasks.
+
 ## Instructions
 
-1. **Load Feature Plan**
-    - Use the provided feature identifier (passed as `$ARGUMENTS`) to locate the corresponding feature plan file in `.claude-sdlc/features/` (e.g. if the argument is `user-authentication`, open `.claude-sdlc/features/user-authentication.md`). If no feature name is given or the file does not exist, inform the user and halt (the feature may need to be planned with `/create-feature` first).
-    - Read the Markdown checklist in the feature file to retrieve the list of tasks. This checklist is the ordered to-do list for implementing the feature. Each task will serve as a sub-goal that needs to be completed by the build process.
-2. **Load Architecture Context**
-    - Check the `.claude-sdlc/architecture/` directory for any design documentation related to this feature. Use shell commands if needed to find pertinent files (for example, **!**`ls .claude-sdlc/architecture` to list files or **!**`grep -i "<feature>" .claude-sdlc/architecture/*` to search contents for the feature name).
-    - Open and review any relevant architecture files (e.g. design specs, data models, interface definitions) to understand system constraints or standards that apply to this feature. Incorporate guidelines from these docs into the implementation approach – ensure the code written for the feature aligns with established patterns and requirements. If no specific architecture doc is found for this feature, proceed using best practices and existing project conventions, or ask the user for clarification on design assumptions if necessary.
-3. **Execute Feature Tasks**
-    - Iterate through each task in the feature’s checklist and implement them one by one (unless certain tasks can be done in parallel). For each task, determine the necessary code or configuration changes and perform them. This may involve editing existing source files or creating new ones, writing functions or classes, updating configs, running database migrations, etc., depending on the task description. Ensure that each action directly addresses the task at hand.
-    - Use Claude Code’s tool capabilities to verify each task’s outcome. For example, after writing code for a task, run compilation or tests via the CLI to make sure the changes work correctly (e.g. execute **!**`npm run build` or **!**`pytest` as appropriate). By checking the results (build output, test pass/fail status, etc.), the agent can confirm whether the task was completed successfully.
-    - **Parallel Execution:** If certain tasks are independent (not affecting the same files or dependent on each other’s completion), consider executing them in parallel using Claude sub-agents. Spawn separate Claude Code sub-agents to work on different tasks concurrently to speed up the development. For example, the agent could handle backend API implementation while a sub-agent simultaneously works on a frontend UI task. Ensure that parallel tasks do not conflict (avoid two agents editing the same component). Coordinate between sub-agents and the main process, monitoring their progress.
-    - After a task is completed and verified, mark it as done in the feature plan. Update the Markdown checklist by changing the task’s checkbox from `[ ]` to `[x]`, then save the file. This persistent update serves as a real-time record of progress in `.claude-sdlc/features/<feature>.md`.
-    - Continue executing tasks in this manner until all tasks are completed (or until an error occurs). If tasks were run in parallel threads, wait for all sub-agents to finish their work before considering the task set complete. The agent should synchronize at logical points to ensure the feature’s components integrate properly and that no steps are skipped.
-4. **Handle Errors and Clarifications**
-    - If any task fails or encounters an error (for instance, the code doesn’t compile, a unit test fails, or a command returns an error), pause the execution immediately. Do not move on to the next tasks while there is an unresolved issue.
-    - Notify the user in the chat about the problem. Present the error details, such as compiler output, test failure messages, or stack traces, that explain why the task failed. Make it clear which specific task (or sub-agent) encountered the issue so the context is understood.
-    - Ask the user how they would like to proceed before making any further changes. For example, the user might choose to fix the issue manually, provide instructions for Claude to implement a fix, or instruct the AI to skip or adjust the task. If Claude believes it has a straightforward fix, it can suggest a solution, but it should still obtain user confirmation before applying it to avoid going down the wrong path.
-    - Similarly, if at any point additional information is needed or something is ambiguous (even if no error has occurred), pause to ask clarifying questions. It’s better to get guidance (e.g., “Should we use technology X or Y for this component?”) than to assume and potentially implement incorrectly.
-    - Only resume the `/build` process once the issue is resolved or the user indicates to continue. If the user provides a fix or clarification, apply the changes and re-run any necessary checks (re-compile, re-test, etc.) to ensure the problem is truly fixed. Then proceed with the remaining tasks. This iterative pause-and-resume approach should repeat as needed – the goal is to systematically address any hurdles until the feature’s task list is fully completed (or the user decides to abort the build).
-5. **Generate Build Report**
-    - Upon completion of all tasks (or upon stopping due to a critical failure), generate a **build report** that summarizes the entire `/build` run. Create a new Markdown file in `.claude-sdlc/builds/` named `<feature>-<timestamp>.md` (for example, `user-authentication-2025-07-12T15-18-31.md`). The timestamp should be the current date and time to uniquely identify that build attempt.
-    - In this build report, include a copy of the final task checklist from the feature plan. All tasks that were finished should be marked `[x]`, and any tasks not completed (if the process was halted early) should remain `[ ]` so it's clear which steps are done.
-    - Provide a brief summary of the actions taken for each task. For example, note which files were created or modified, which functions or modules were implemented, and any commands that were run (like tests or build scripts). If possible, include key details or code snippets that are important for understanding the changes (for instance, mention that “Added `UserAuthService` class in `auth.py`” or “Updated `docker-compose.yml` to include the new service”).
-    - Document any errors or issues that occurred during the build and how they were resolved. For instance, if there was a test failure on Task 3 that was fixed by adjusting a function, describe that in the report (along with the error message and the solution applied). This creates a history of troubleshooting steps within the build.
-    - State the outcome of the build process. If all tasks completed successfully, mention that the feature implementation is complete and perhaps note that all tests passed or the application built without errors. If the build was halted or incomplete, clearly note that (e.g. “Build paused after Task 4 due to unresolved errors”). Optionally, include any additional metadata that could be useful, such as the number of sub-agents used or a link to a git commit if changes were committed automatically.
-    - Save the report file to the project. This build report serves as an audit log and reference for what the `/build` command did. It allows anyone reviewing the project to understand the changes made for this feature and see evidence of test runs or error handling during the automation.
-6. **Summarize and Guide**
-    - After writing the build report, output a concise summary in the chat for the user. Begin by confirming the status of the feature build – for example, **“Feature `user-authentication` implementation is complete.”** (or if not fully complete, **“Build halted for `user-authentication` pending resolution of an error.”**).
-    - Mention that a detailed build report has been saved in the project, and provide the path to the report file (e.g. `.claude-sdlc/builds/<feature>-<timestamp>.md`) so the user knows where to find the full details. Encourage them to review that file for a breakdown of all tasks and changes.
-    - Provide guidance on next steps. Commonly, after a successful build, the next step would be to run a code review on the changes (suggest using the `/code-review` command to analyze the new code). You might also remind the user to run the full test suite or manually verify the feature if appropriate, then proceed to commit the changes to version control or open a pull request.
-    - If the build was paused due to an error, advise the user on how to continue. For example, if awaiting a fix, the summary should note what needs to be fixed. Once the user addresses the issue (either manually or via further AI assistance), they can run `/build <feature>` again to resume the process or verify the fix and continue.
-    - Emphasize the reliability and transparency of this automated process. The `/build` command is designed to act like a diligent junior developer – it implements the feature step-by-step, stops and asks for help when something goes wrong or is unclear, and documents every change made. This ensures that using the command is safe (no silent failures) and that the human developer remains informed and in control throughout the feature development.
+Follow this systematic approach to build feature: **$ARGUMENTS**
 
-**Example:** For instance, if a developer runs `/build user-profile-page`, the command will load the file `.claude-sdlc/features/user-profile-page.md` and begin executing each task listed (such as creating a database migration for the profiles table, implementing a new `/api/profile` endpoint, and building the front-end UI for the profile page). It might work on backend and frontend tasks in parallel if they are independent – for example, setting up the database and API while simultaneously generating the UI components. As each step completes, the command marks the task as done in the checklist. If a unit test fails during this process (say, the new API returns an unexpected error), the `/build` workflow will pause at that task and present the error to the user, waiting for input on how to fix it. Once the issue is resolved and all tasks are finished, Claude saves a build report (e.g. `.claude-sdlc/builds/user-profile-page-2025-07-12T15-18-31.md`) detailing everything that happened: the completed tasks, code changes, and test results. Finally, it outputs a message confirming that the feature is implemented and suggests running `/code-review` next to double-check the changes and ensure code quality.
+1. **Load Feature Plan**
+   - Use the provided feature identifier **$ARGUMENTS** to locate `.claude-sdlc/features/$ARGUMENTS.md`
+   - If no feature name is given or the file does not exist, inform the user and halt
+   - The feature may need to be planned with `/create-feature` first
+   - Read the Markdown checklist to retrieve the ordered task list for implementation
+
+2. **Load Architecture Context**
+   - Search: `grep -i "$ARGUMENTS" .claude-sdlc/architecture/*`
+   - Check `.claude-sdlc/architecture/` directory for design documentation related to this feature
+   - Review relevant architecture files (design specs, data models, interface definitions)
+   - Incorporate guidelines from these docs into the implementation approach
+   - **Quality Gate**: Ensure understanding of system constraints and patterns
+   - If no specific architecture doc is found, ask if you want to build one for this feature
+
+3. **Execute Feature Tasks**
+   - Iterate through each task in the feature's checklist sequentially
+   - For independent tasks, consider parallel execution using Claude sub-agents
+   - Perform necessary code or configuration changes for each task
+   - Use tool capabilities to verify each task's outcome (compilation, tests, etc.)
+   - **Quality Gate**: Run `npm run build` or `pytest` as appropriate after each task
+   - Mark completed tasks as done by updating checkbox from `[ ]` to `[x]`
+   - Save progress to `.claude-sdlc/features/$ARGUMENTS.md` in real-time
+
+4. **Handle Errors and Clarifications**
+   - **Pause immediately** if any task fails or encounters an error
+   - Present error details (compiler output, test failures, stack traces) to user
+   - Ask for guidance before making further changes
+   - Wait for user confirmation or instructions before resuming
+   - Re-run necessary checks after fixes to ensure problems are resolved
+   - **Quality Gate**: Verify all tests pass before proceeding to next task
+
+5. **Parallel Task Coordination**
+   - Identify tasks that can run independently (different files/components)
+   - Spawn separate Claude sub-agents for concurrent execution
+   - Monitor all threads and coordinate between sub-agents
+   - Pause all agents if any sub-task fails
+   - Ensure no conflicts (avoid multiple agents editing same files)
+   - **Quality Gate**: Synchronize at logical points for proper integration
+   - Verify all parallel tasks complete successfully before proceeding
+
+6. **Generate Build Report**
+   - Create comprehensive build report upon completion or failure
+   - Save as `.claude-sdlc/builds/$ARGUMENTS-<timestamp>.md`
+   - Include final task checklist with completion status
+   - Document actions taken for each task (files created/modified, functions implemented)
+   - Record any errors encountered and their resolutions
+   - Note outcome: "Build successful" or "Build paused due to errors"
+   - **Quality Gate**: Ensure report includes all necessary details for audit trail
+   - Update relevant documents in `.claude-sdlc/architecture/` folder
+
+7. **Summarize and Guide**
+   - Output concise summary confirming feature build status
+   - Provide path to detailed build report file
+   - Suggest next steps (typically `/code-review` for successful builds)
+   - For paused builds, advise on how to continue after fixes
+   - Emphasize reliability and transparency of the automated process
+
+**Example Usage:**
+Running `/build user-authentication` will:
+- Load `.claude-sdlc/features/user-authentication.md`
+- Execute each task (database migration, API endpoints, frontend UI)
+- Work on backend and frontend tasks in parallel when possible
+- Pause if unit tests fail and present error to user
+- Generate `.claude-sdlc/builds/user-authentication-2025-07-12T15-18-31.md`
+- Suggest running `/code-review` to verify the changes
+
+Remember to maintain code quality, follow project conventions, and prioritize user experience throughout the development process.

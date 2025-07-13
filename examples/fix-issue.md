@@ -54,9 +54,6 @@ Follow this structured approach to analyze and fix issues: **$ARGUMENTS**
    - Ensure performance isn't negatively impacted
 
 9. **Documentation Updates**
-   - Create fix report: `.claude-sdlc/fixes/issue-$ARGUMENTS-$(date +%Y%m%d).md`
-   - Document the issue, root cause, and solution
-   - Include before/after code examples
    - Update relevant documentation if needed
    - Add or update code comments for clarity
    - Update changelog if the project maintains one
@@ -65,7 +62,7 @@ Follow this structured approach to analyze and fix issues: **$ARGUMENTS**
 10. **Commit and Push**
     - Stage the changes: `git add .`
     - Create a descriptive commit message following project conventions
-    - Example commit: `fix: resolve issue with user authentication timeout (#$ARGUMENTS)`
+    - Example: `fix: resolve issue with user authentication timeout (#$ARGUMENTS)`
     - Push the branch: `git push origin fix/issue-$ARGUMENTS`
 
 11. **Create Pull Request**
@@ -79,7 +76,6 @@ Follow this structured approach to analyze and fix issues: **$ARGUMENTS**
     - Address any review comments promptly
     - Update the issue with progress and resolution
     - Ensure CI/CD checks pass
-    - Suggest running `/code-review` on the changes
 
 13. **Verification**
     - Once merged, verify the fix in the main branch

@@ -1,74 +1,187 @@
 # Code Review
 
-Performs a comprehensive code review on the specified scope of the project, analyzing code quality in strict mode and identifying issues in style, correctness, security, performance, and maintainability.
+Comprehensive code quality analysis and review with flexible scope targeting
 
 ## Instructions
 
-1. **Initialize Review Context**
-    
-    - Determine the review scope based on the command arguments. If the `/code-review` command is run **without arguments**, default to reviewing the entire repository. If an argument is provided, interpret it to set the scope:
-        
-        - **Directory** – Review all files within the given directory (and its subdirectories).
-            
-        - **File** – Review the single specified file.
-            
-        - **Commit/Diff** – If a commit hash, branch name, or PR reference is provided, identify the files changed in that diff (e.g., using **!**`git diff --name-only <commit>` or a relevant VCS command) and limit the review to those changes.
-            
-        - **Pull Request** – If integrated with a platform (like GitHub/GitLab), allow specifying a PR ID or branch to review the changes in that PR.
-            
-    - Use shell commands to gather the list of files to analyze within the chosen scope. For example, you might run **!**`ls -R <directory>` or **!**`find <directory> -type f` to list files in a directory, or **!**`git diff <commit> -U0` to retrieve a diff. Filter out non-code or irrelevant files as needed so that the review focuses on source code and configuration files.
-        
-    - Check for any project-specific configuration in `.claude-sdlc/config/`. If such config files or guidelines exist (e.g. lint rules, naming conventions, or a custom review checklist), load and apply them. This ensures the review considers project standards (for instance, specific style guides or excluded directories).
-        
-2. **Perform Code Review Analysis**
-    
-    - **Code Style & Formatting:** Examine the code for consistency with styling conventions. Ensure formatting is clean and uniform (naming conventions, indentation, spacing, etc.), and flag any deviations or clutter (like dead code or commented-out blocks that should be removed).
-        
-    - **Correctness & Logic:** Analyze the logic in each file for potential errors or bugs. Look out for things like incorrect calculations, off-by-one errors, improper conditionals, or any code that might not produce the intended result. Flag sections of code that seem buggy or fragile.
-        
-    - **Security:** Inspect the code for security vulnerabilities or bad practices. This includes checking for SQL injection risks, XSS vulnerabilities, use of hard-coded secrets or passwords, unsafe deserialization or file handling, lack of input validation, and any usage of deprecated or insecure functions. Note any places where security best practices (e.g. using parameterized queries, encoding outputs, proper authentication checks) are not followed.
-        
-    - **Performance:** Identify any inefficient code or potential performance bottlenecks. For example, look for N+1 database query patterns, heavy loops or recursive calls that could be optimized, large in-memory data structures that could cause high memory usage, or any operations that might slow down the system. Highlight sections where a more efficient approach is possible.
-        
-    - **Maintainability:** Assess the code’s maintainability and organization. Flag overly long or complex functions, duplicated code, unclear variable or function names, and lack of comments or documentation where it would be helpful. Check if the code adheres to the project’s structural patterns and if not, note where refactoring might improve clarity and maintainability.
-        
-    - **Testing Gaps:** If the project includes tests, verify the coverage for the reviewed components. Note any critical modules or functions that do not have corresponding tests. For example, if reviewing a feature’s code, check if there are unit or integration tests covering its behavior. If tests exist, quickly assess their adequacy (e.g., are they meaningful and covering edge cases). If tests are missing or insufficient, record this as an issue.
-        
-    - **Dependencies & Configuration:** Review dependency files (like `package.json`, `requirements.txt`, etc.) or configuration files for potential issues. Flag any dependencies that are outdated or known to have vulnerabilities (for instance, an older library version with security advisories). Also, check configuration for insecure settings (like debug mode enabled in production, or overly permissive CORS settings) and note them.
-        
-    - Throughout the analysis, apply the **strictest interpretation of best practices** by default. Assume a high standard for code quality and flag anything that doesn’t meet that bar. (If the project’s config or context indicates a different standard or specific exceptions, take those into account; otherwise, err on the side of caution when identifying issues.)
-        
-3. **Report Results**
-    
-    - Compile the findings into a Markdown report. Create a new file under `.claude-sdlc/reviews/` to save the review results. Use a timestamp or unique identifier in the filename (for example, `.claude-sdlc/reviews/2025-07-12T152200-review.md`) so that each review is recorded separately and chronologically.
-        
-    - In the review file, **organize the issues by category** for clarity. For instance, use section headings or bullet lists for **Style**, **Correctness**, **Security**, **Performance**, **Maintainability**, **Testing**, etc. Under each category, list the specific issues found:
-        
-        - Describe each issue briefly but clearly, possibly referencing file names and line numbers (if available) so the developer knows where to look. For example: “`utils/data_parser.py:45` – **Performance:** Uses an O(n^2) loop, which may slow down for large inputs; consider optimizing with a set for O(n) lookups.”
-            
-        - Provide a suggestion or best practice for each issue. Keep the tone factual and helpful, e.g., “Avoid constructing SQL with string concatenation to prevent SQL injection; use prepared statements instead.”
-            
-    - Begin the review file with a **high-level summary**. This summary should give an overview of the code health in that scope, such as: “Reviewed 10 files – found 2 potential bugs, 1 security concern, and several style inconsistencies.” Mention any overall strengths or positive observations as well (e.g., “Code is well-organized into modules” or “Follows naming conventions consistently”) to give balance.
-        
-    - **Do not modify any source code** as part of this review process. The report should only describe issues and recommendations. Ensure the language is clear that these are findings for the developer to address. After writing all findings, save the Markdown file to disk (creating the `reviews/` folder if it doesn’t exist).
-        
-4. **Developer Guidance**
-    
-    - After saving the detailed review file, provide a concise summary of the results in the chat to guide the developer. This output should mention the key findings and direct the user to the full report. For example, the assistant might say: “Code review completed. Found 1 critical bug and 2 security issues (see `.claude-sdlc/reviews/2025-07-12T152200-review.md` for details). Overall, 15 items were noted across style, performance, and maintainability.”
-        
-    - Include the path to the review file in the summary so the developer can easily open it for full details. Make it clear that the full report contains categorized lists of issues and suggestions.
-        
-    - Suggest **next steps** based on the findings, to help the developer proceed. For instance:
-        
-        - If serious issues were found, recommend addressing them promptly. You might suggest running `/fix-issue` on specific problems if an automated fix command exists, or simply advise the developer to manually fix the highlighted sections.
-            
-        - If numerous style issues were found, suggest running a linter or formatter tool (or a dedicated command, if available, to auto-fix style problems).
-            
-        - If there are gaps in testing, recommend writing new tests for critical functionality, potentially using a command like `/generate-tests` to jump-start that process.
-            
-        - Encourage the developer to run `/code-review` again on the updated code or specific files after fixes, to verify that all issues have been resolved.
-            
-    - The overall guidance should be constructive and action-oriented, making it clear how the developer can improve the code. The goal is to use the review results to enhance code quality step by step, integrating with the Claude-SDLC workflow for any follow-up automation.
-        
+Follow this systematic approach to review code: **$ARGUMENTS**
 
-**Example:** If a developer runs `/code-review` with no arguments, the assistant will review the entire repository in strict mode. It will generate a report file (e.g., `.claude-sdlc/reviews/2025-07-12T152200-review.md`) summarizing everything from minor style nitpicks to critical bugs. The chat output might be: “✅ Code review complete. Found 3 potential bugs, 2 security issues, and 8 style or maintainability suggestions. See `.claude-sdlc/reviews/2025-07-12T152200-review.md` for details. Consider running `/fix-issue` on critical findings or addressing the suggestions, then `/code-review` again to verify.” If the developer instead runs `/code-review utils/` targeting a specific directory (or points to a specific commit like `/code-review HEAD~1`), the command will focus only on that scope – e.g., reviewing files under `utils/` or the files changed in the latest commit. The resulting report and summary will then pertain just to that scope, allowing for focused code health checks on recent changes or particular areas of the codebase.
+1. **Scope Determination and Target Identification**
+   - **Targeted Review** (when $ARGUMENTS provided):
+     - **Commit Hash**: Use `git diff --name-only $ARGUMENTS` to identify changed files
+     - **Branch Name**: Use `git diff --name-only main..$ARGUMENTS` to compare with main branch
+     - **Pull Request**: Use `gh pr diff $ARGUMENTS` to get PR changes
+     - **File Path**: Review specific file directly (e.g., `src/main.py`)
+     - **Directory Path**: Use `find $ARGUMENTS -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.jsx" -o -name "*.tsx" \)` for recursive analysis
+
+   - **Comprehensive Review** (when no $ARGUMENTS):
+     - Review entire codebase excluding build artifacts and dependencies
+     - Use: `find . -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.jsx" -o -name "*.tsx" \) -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./build/*" -not -path "./dist/*" -not -path "./.next/*"`
+     - Focus on source code, configuration files, and documentation
+
+2. **Environment and Context Setup**
+   - Check current git status: `git status` to understand working directory state
+   - Identify project type and technology stack from configuration files
+   - Load project-specific configuration from `.claude-sdlc/config/` if available
+   - Review existing architecture documentation in `.claude-sdlc/architecture/`
+   - Check for coding standards and style guides in project root or docs
+
+3. **Pre-Analysis Repository State**
+   - Verify repository is in clean state or document uncommitted changes
+   - Check current branch: `git branch --show-current`
+   - Identify main/master branch: `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`
+   - Document any build artifacts or generated files to exclude from review
+
+4. **File Discovery and Categorization**
+   - Execute appropriate discovery command based on scope from Step 1
+   - Categorize files by type (source code, tests, configuration, documentation)
+   - Prioritize files based on:
+     - Recent changes (if reviewing commits/PRs)
+     - Critical business logic components
+     - Security-sensitive areas (authentication, data handling)
+     - Performance-critical paths
+
+5. **Style and Formatting Analysis**
+   - **Naming Conventions**
+     - Verify consistent variable, function, and class naming
+     - Check for meaningful and descriptive names
+     - Identify abbreviations or unclear naming patterns
+     - Ensure naming follows language and framework conventions
+
+   - **Code Organization and Structure**
+     - Check file and directory organization
+     - Verify proper import/export patterns
+     - Identify dead code and unused imports
+     - Flag commented-out code blocks for removal
+     - Assess code formatting consistency
+
+6. **Correctness and Logic Review**
+   - **Algorithm and Logic Analysis**
+     - Analyze control flow and conditional logic
+     - Check for off-by-one errors and boundary conditions
+     - Verify loop termination conditions
+     - Identify potential race conditions in concurrent code
+
+   - **Error Handling Assessment**
+     - Verify proper exception handling and error propagation
+     - Check for appropriate error messages and logging
+     - Ensure graceful degradation for failure scenarios
+     - Review input validation and sanitization
+
+7. **Security Assessment and Vulnerability Scan**
+   - **Common Vulnerability Patterns**
+     - Scan for SQL injection risks in database queries
+     - Check for XSS vulnerabilities in user input handling
+     - Identify potential CSRF vulnerabilities
+     - Review authentication and authorization logic
+
+   - **Secrets and Sensitive Data**
+     - Check for hard-coded passwords, API keys, or tokens
+     - Verify proper environment variable usage
+     - Review data encryption and hashing implementations
+     - Assess logging practices for sensitive information leakage
+
+8. **Performance Analysis and Optimization**
+   - **Algorithm Efficiency**
+     - Identify potential bottlenecks and inefficient algorithms
+     - Check for N+1 query patterns in database operations
+     - Review memory usage patterns and potential leaks
+     - Assess computational complexity of critical functions
+
+   - **Resource Usage**
+     - Check for excessive memory allocations
+     - Identify blocking operations that could be asynchronous
+     - Review caching strategies and opportunities
+     - Assess database query optimization needs
+
+9. **Maintainability and Code Quality Evaluation**
+   - **Code Complexity Assessment**
+     - Flag overly complex or long functions (>50 lines)
+     - Identify deeply nested code structures
+     - Check for code duplication and refactoring opportunities
+     - Assess adherence to SOLID principles
+
+   - **Documentation and Comments**
+     - Verify adequate inline documentation
+     - Check for outdated or misleading comments
+     - Assess API documentation completeness
+     - Review README and setup instructions
+
+10. **Testing Coverage and Quality Analysis**
+    - **Test Presence and Coverage**
+      - Identify components lacking unit tests
+      - Check for integration and end-to-end test coverage
+      - Verify test quality and meaningful assertions
+      - Assess test maintainability and clarity
+
+    - **Test Strategy Evaluation**
+      - Review test organization and structure
+      - Check for proper mocking and test isolation
+      - Verify edge case and error condition testing
+      - Assess test performance and execution time
+
+11. **Dependency and Configuration Review**
+    - **Dependency Management**
+      - Check for outdated or vulnerable dependencies using package files
+      - Identify unused or redundant dependencies
+      - Verify proper version pinning and lock files
+      - Review license compatibility for dependencies
+
+    - **Configuration Security**
+      - Review configuration files for security issues
+      - Check environment-specific configurations
+      - Verify proper secrets management
+      - Assess deployment and build configurations
+
+12. **Report Generation and Documentation**
+    - Create comprehensive timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%dT%H%M%S)-code-review.md`
+    - **Report Structure**:
+      - Executive summary with scope and key findings
+      - Detailed findings by category (Critical, High, Medium, Low priority)
+      - Specific file references with line numbers for each issue
+      - Code examples and suggested improvements
+      - Actionable recommendations with implementation guidance
+    - **Do not modify source code** - only analyze and report findings
+
+13. **Priority Assessment and Categorization**
+    - **Critical Issues** (immediate attention required):
+      - Security vulnerabilities
+      - Logic errors that could cause data loss
+      - Performance issues affecting user experience
+
+    - **High Priority** (address soon):
+      - Code quality issues affecting maintainability
+      - Missing test coverage for critical functionality
+      - Dependency vulnerabilities with available fixes
+
+    - **Medium/Low Priority** (address in next iteration):
+      - Style inconsistencies
+      - Documentation improvements
+      - Refactoring opportunities
+
+14. **Integration with Development Workflow**
+    - Reference related issues or tickets if reviewing specific changes
+    - Suggest appropriate branch protection rules or CI/CD improvements
+    - Recommend code review checklist items for future reviews
+    - Document patterns and anti-patterns discovered for team knowledge
+
+15. **Next Steps and Actionable Guidance**
+    - **Immediate Actions** for critical issues:
+      - Run `/fix-issue <issue-number>` for specific bugs
+      - Use project linting tools: `npm run lint` or `flake8` or equivalent
+      - Run `/security-audit` if security vulnerabilities found
+      - Address dependency vulnerabilities: `npm audit fix` or equivalent
+
+    - **Follow-up Recommendations**:
+      - Run `/generate-tests` for components lacking test coverage
+      - Consider `/performance-audit` if performance concerns identified
+      - Update documentation if maintainability issues found
+      - Re-run `/code-review $ARGUMENTS` after fixes to verify improvements
+
+    - **Long-term Improvements**:
+      - Establish coding standards if not present
+      - Set up automated code quality tools (linters, formatters)
+      - Implement pre-commit hooks for quality gates
+      - Schedule regular code review sessions for knowledge sharing
+
+Remember to maintain high standards for code quality while providing constructive, actionable feedback. Focus on teaching and improving the codebase systematically rather than just identifying problems.
