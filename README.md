@@ -337,6 +337,59 @@ Let's say you want to add a user profile feature to your TypeScript application:
 
 That's it! You've successfully added a new feature to your TypeScript project using Claude-SDLC with comprehensive quality assurance.
 
+## Troubleshooting
+
+### Common Configuration Issues
+
+#### Commands Not Found
+If Claude Code doesn't recognize the SDLC commands:
+```bash
+# Verify commands are installed
+ls .claude/commands/
+
+# Reinstall if needed
+curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/install.sh | bash --update
+```
+
+#### Hook Execution Errors
+If post-tool hooks fail (e.g., linting):
+```bash
+# Test your lint command manually first
+npm run lint:fix
+
+# Simplify hooks in .claude/settings.json if needed
+{
+  "hooks": {
+    "post_tool": []
+  }
+}
+```
+
+#### Performance Issues
+For large codebases, optimize Claude Code performance:
+```bash
+# Add to your ~/.claude/settings.json
+{
+  "env": {
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "8000"
+  }
+}
+```
+
+#### Memory Issues
+If CLAUDE.md becomes too large:
+- Use `@` imports to reference external files
+- Split architecture docs into `.claude-sdlc/architecture/` files
+- Keep core project memory concise and specific
+
+### Best Practices
+
+1. **Start Small**: Begin with simple features to understand the workflow
+2. **Customize Commands**: Edit `.claude/commands/*.md` files to match your project conventions
+3. **Use Architecture Docs**: Maintain `.claude-sdlc/architecture/` files for complex projects
+4. **Regular Reviews**: Run `/code-review` frequently to maintain code quality
+5. **Team Configuration**: Share `.claude/settings.json` with your team for consistent behavior
+
 ## Acknowledgments
 
 This project was heavily inspired by the following repositories:

@@ -153,3 +153,29 @@ Commands include built-in validation through:
 - Quality assurance through automated reviews
 
 No separate test framework is needed - validation is embedded within the command workflows themselves.
+
+## Development Commands
+
+### Installing Commands to Target Projects
+```bash
+# Basic installation
+curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/install.sh | bash
+
+# Test installation with dry run
+curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/install.sh | bash -s -- --dry-run --verbose
+```
+
+### Modifying Commands
+Commands are Markdown files in `commands/` directory. When editing:
+- Maintain the `$ARGUMENTS` parameter substitution pattern
+- Follow systematic step-by-step instruction format
+- Include quality gates and error handling checkpoints
+- Use `!` prefix for shell command execution examples
+
+### Command Installation Process
+The `install.sh` script:
+1. Clones the repository to a temporary directory
+2. Creates `.claude/commands/` and `.claude-sdlc/` structure in target project
+3. Copies all `.md` files from `commands/` to target's `.claude/commands/`
+4. Creates README files in each `.claude-sdlc/` subdirectory
+5. Supports update mode, dry-run, and logging options
