@@ -20,34 +20,6 @@ Follow this systematic approach to build feature: **$ARGUMENTS**
    - **Quality Gate**: Ensure understanding of system constraints and patterns
    - If no specific architecture doc is found, ask if you want to build one for this feature
 
-### Project Context Check
-
-#### CLAUDE.md Integration
-- Check if CLAUDE.md exists in project root directory
-- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific development guidelines with `claude init`?"
-- If present, reference CLAUDE.md for:
-  - Development preferences (TypeScript usage, strict typing requirements)
-  - Code quality standards and testing approaches
-  - Architecture patterns and implementation guidelines
-  - Build validation and quality gate requirements
-- Incorporate CLAUDE.md guidelines throughout implementation process
-
-2.5. **MCP-Enhanced Implementation**
-
-Before beginning implementation, check for available MCP servers that could enhance the build process:
-
-- **Context7**: For documentation lookup and best practice validation during implementation
-- **Playwright**: For UI testing automation and browser-based feature validation
-- **Shadcn UI**: For component implementation standards and accessibility compliance
-- **Other custom MCP servers**: As available in your environment
-
-Use available MCP capabilities throughout implementation for:
-- Code quality validation against documentation standards
-- Complex algorithmic implementation with structured thinking
-- Database operations and real-time feature development
-- Automated testing and validation workflows
-- Component implementation following design system patterns
-
 3. **Execute Feature Tasks**
    - Iterate through each task in the feature's checklist sequentially
    - For independent tasks, consider parallel execution using Claude sub-agents
@@ -100,13 +72,6 @@ Use available MCP capabilities throughout implementation for:
    - Note outcome: "Build successful" or "Build paused due to errors"
    - **Quality Gate**: Ensure report includes all necessary details for audit trail
    - Update relevant documents in `.claude-sdlc/builds/` folder
-
-   #### File Persistence Guidelines
-   - Automatically save all generated files and build reports immediately after creation
-   - Save progress updates to `.claude-sdlc/features/$ARGUMENTS.md` in real-time during task execution
-   - Confirm file locations with user for all saved content
-   - No manual saving steps required from user
-   - Verify all files are properly persisted before proceeding to next steps
 
 7. **Summarize and Guide**
    - Output concise summary confirming feature build status

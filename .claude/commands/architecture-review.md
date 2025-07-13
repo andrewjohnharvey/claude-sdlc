@@ -13,40 +13,7 @@ Follow this systematic approach to review architecture: **$ARGUMENTS**
    - Map project structure: `find . -maxdepth 2 -type d`
    - Identify architectural patterns and technology stack
 
-### Project Context and Guidelines Review
-
-#### CLAUDE.md Integration
-- Check if CLAUDE.md exists in project root directory
-- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific architectural guidelines with `claude init`?"
-- If present, reference CLAUDE.md for:
-  - Architectural preferences and patterns (clean architecture, modular design)
-  - Technology stack preferences and constraints
-  - Code quality standards and error handling approaches
-  - Testing and validation requirements for architectural decisions
-- Use CLAUDE.md guidelines to inform all architectural analysis and recommendations
-
-2. **MCP-Enhanced Architecture Analysis**
-   - **Context7**: For architectural documentation lookup and best practice validation
-     - Look up architectural patterns and design principles for the identified technology stack
-     - Validate current architecture against documented best practices
-     - Cross-reference with official documentation for frameworks and libraries in use
-   
-   - **Playwright**: For UI architecture testing and user experience validation
-     - Test UI architecture through automated user journeys
-     - Validate component interaction patterns and data flow
-     - Assess frontend architecture scalability and maintainability
-   
-   - **Shadcn UI**: For design system architecture and component library standards
-     - Ensure consistent UI component usage patterns
-     - Validate design system compliance and component standardization
-     - Review accessibility and responsive design architecture
-   
-   - **Other custom MCP servers**: As available in your environment
-     - Utilize project-specific MCP capabilities for specialized analysis
-     - Integrate domain-specific architectural validation tools
-     - Leverage custom analysis workflows and validation patterns
-
-3. **Parallel Architecture Analysis Coordination and Sub-Agent Spawning**
+2. **Parallel Architecture Analysis Coordination and Sub-Agent Spawning**
    - **Independent Architecture Analysis Categories**: Spawn sub-agents for parallel analysis using the Task tool:
      - **Sub-Agent A**: "Perform modularity analysis for $ARGUMENTS architecture review"
      - **Sub-Agent B**: "Perform scalability evaluation for $ARGUMENTS architecture review"
@@ -66,7 +33,7 @@ Follow this systematic approach to review architecture: **$ARGUMENTS**
      - Each sub-agent provides detailed findings for their assigned architectural category
      - **Quality Gate**: Verify all parallel architecture analysis tasks complete before report generation
 
-4. **Architecture Assessment** *(This section now handled by Sub-Agents A-C in parallel)*
+3. **Architecture Assessment** *(This section now handled by Sub-Agents A-C in parallel)*
    - **Modularity Analysis**
      - Examine separation of concerns across modules
      - Identify tightly coupled components
@@ -85,33 +52,26 @@ Follow this systematic approach to review architecture: **$ARGUMENTS**
      - Review API design and interface consistency
      - Assess error handling and logging patterns
 
-5. **Documentation Review** *(This section now handled by Sub-Agent D in parallel)*
+4. **Documentation Review** *(This section now handled by Sub-Agent D in parallel)*
    - Compare documented architecture with actual implementation
    - Identify gaps between design specs and code reality
    - Check for outdated or missing architectural documentation
    - Verify that major architectural decisions are documented
 
-6. **Report Generation**
-   - Create timestamped report: `.claude-sdlc/architecture-review/$(date +%Y-%m-%d-%H%M)-architecture-review.md`
+5. **Report Generation**
+   - Create timestamped report: `.claude-sdlc/arhitecture-review/$(date +%Y-%m-%d-%H%M)-architecture-review.md`
    - Structure findings by category (Modularity, Scalability, Consistency, Documentation)
    - Include specific examples and code references for each issue
    - Provide actionable recommendations for improvements
    - Add executive summary highlighting key findings and priorities
 
-   #### File Persistence Guidelines
-   - Automatically save all architecture review reports and analysis files immediately after generation
-   - Save intermediate architectural analysis results to avoid work loss during comprehensive reviews
-   - Confirm file locations with user for all generated architecture content
-   - No manual saving steps required from user
-   - Verify all architecture review files are properly persisted in the appropriate directory
-
-7. **Improvement Planning**
+6. **Improvement Planning**
    - Identify critical issues requiring immediate attention
    - Suggest feature plans for major architectural improvements
    - Recommend follow-up actions and next steps
    - Consider creating feature plans for significant refactoring needs
 
-8. **Quality Validation**
+7. **Quality Validation**
    - Ensure all findings are backed by specific evidence
    - Verify recommendations align with project goals and constraints
    - Check that report is actionable and prioritized

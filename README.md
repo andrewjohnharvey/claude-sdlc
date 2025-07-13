@@ -40,6 +40,11 @@ Claude-SDLC integrates seamlessly with Claude Code, allowing you to invoke power
 - Detailed build logs with task completion tracking
 - Performance metrics and security vulnerability assessments
 
+### 🔌 **MCP Integration**
+- **Enhanced Documentation Lookup**: Context7 integration for official library documentation
+- **UI Testing**: Playwright automation for comprehensive web application testing
+- **Component Standards**: Shadcn UI integration for design system compliance
+
 ## Installation
 
 ### Prerequisites
@@ -47,7 +52,8 @@ Claude-SDLC integrates seamlessly with Claude Code, allowing you to invoke power
 Before installing Claude-SDLC, you need to:
 
 1. Have Claude Code installed and configured
-2. Initialize Claude Code in your project by running the `/init` command in Claude Code
+2. Node.js installed (required for MCP servers)
+3. Initialize Claude Code in your project by running the `/init` command in Claude Code
    - This creates a `CLAUDE.md` file that stores project memory
    - For more details, see [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code/memory#set-up-project-memory)
 
@@ -91,6 +97,28 @@ curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/i
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/install.sh | bash -s -- --log install.log
+```
+
+### MCP Server Setup
+
+Claude-SDLC automatically configures MCP (Model Context Protocol) servers that enhance command capabilities:
+
+- **Context7**: Documentation lookup for libraries and frameworks
+- **Playwright**: Browser automation and UI testing
+- **Shadcn UI**: Component library integration and validation
+
+**Setup Process**:
+1. Installation automatically creates `.mcp.json` configuration
+2. Claude Code will prompt to trust MCP servers on first use
+3. MCP servers are automatically installed when needed
+
+**Troubleshooting**:
+```bash
+# Check MCP server status
+claude mcp list
+
+# Restart MCP servers if needed
+claude mcp restart
 ```
 
 ## Available Commands

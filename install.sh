@@ -137,6 +137,19 @@ fi
 
 execute "cp \"$TEMP_DIR/commands\"/*.md \"$PROJECT_DIR/.claude/commands/\""
 
+# Copy MCP configuration
+log "Setting up MCP server configuration..."
+if [[ -f "$TEMP_DIR/.mcp.json" ]]; then
+  if [[ ! -f "$PROJECT_DIR/.mcp.json" ]] || [[ "$UPDATE_MODE" == true ]]; then
+    execute "cp \"$TEMP_DIR/.mcp.json\" \"$PROJECT_DIR/.mcp.json\""
+    log "MCP configuration copied to project root"
+  else
+    log "MCP configuration already exists, skipping (use --update to overwrite)"
+  fi
+else
+  log "Warning: No .mcp.json found in Claude-SDLC repository"
+fi
+
 # Initialize README files in each directory
 if [[ "$DRY_RUN" == false ]]; then
   # Create README for features directory
@@ -217,7 +230,16 @@ if [[ "$DRY_RUN" == false ]]; then
   log "  - /generate-tests - Create comprehensive test cases to improve coverage"
   log "  - /fix-issues - Identify and resolve specific code issues"
   log ""
-  log "To verify installation, run '/help' in Claude Code to see the available commands."
+  log "MCP Servers configured:"
+  log "  - Context7 (documentation lookup)"
+  log "  - Playwright (browser automation)"
+  log "  - Shadcn UI (component library)"
+  log ""
+  log "Next steps:"
+  log "  1. Open project in Claude Code"
+  log "  2. Trust MCP servers when prompted"
+  log "  3. Run '/help' to verify installation"
+  log "  4. Start with '/create-feature <feature-name>' to begin"
 else
   log "Dry run completed. No changes were made."
 fi
