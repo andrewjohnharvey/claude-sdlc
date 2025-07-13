@@ -48,13 +48,13 @@ Follow this systematic approach to build feature: **$ARGUMENTS**
 
 6. **Generate Build Report**
    - Create comprehensive build report upon completion or failure
-   - Save as `.claude-sdlc/builds/$ARGUMENTS-<timestamp>.md`
+   - Save as `.claude-sdlc/builds/$(date +%Y-%m-%d-%H%M)-$ARGUMENTS.md`
    - Include final task checklist with completion status
    - Document actions taken for each task (files created/modified, functions implemented)
    - Record any errors encountered and their resolutions
    - Note outcome: "Build successful" or "Build paused due to errors"
    - **Quality Gate**: Ensure report includes all necessary details for audit trail
-   - Update relevant documents in `.claude-sdlc/architecture/` folder
+   - Update relevant documents in `.claude-sdlc/builds/` folder
 
 7. **Summarize and Guide**
    - Output concise summary confirming feature build status

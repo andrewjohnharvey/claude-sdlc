@@ -54,7 +54,7 @@ Follow this structured approach to analyze and fix issues: **$ARGUMENTS**
    - Ensure performance isn't negatively impacted
 
 9. **Documentation Updates**
-   - Create fix report: `.claude-sdlc/fixes/issue-$ARGUMENTS-$(date +%Y%m%d).md`
+   - Create fix report: `.claude-sdlc/fixes/$(date +%Y-%m-%d)-issue-$ARGUMENTS.md`
    - Document the issue, root cause, and solution
    - Include before/after code examples
    - Update relevant documentation if needed

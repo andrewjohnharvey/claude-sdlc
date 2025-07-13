@@ -13,6 +13,33 @@ Claude-SDLC is an AI-powered toolkit for software developers who want to acceler
 
 Claude-SDLC integrates seamlessly with Claude Code, allowing you to invoke powerful commands that handle complex tasks while you focus on creative problem-solving.
 
+## Key Features
+
+### 🎯 **Flexible Scope Targeting**
+- **Targeted Analysis**: Focus reviews on specific files, directories, commits, or branches
+- **Comprehensive Analysis**: Full codebase analysis when no arguments provided
+- **Smart Context Awareness**: Commands adapt behavior based on provided arguments
+
+### 🔄 **Systematic Quality Gates**
+- Built-in quality checkpoints throughout all processes
+- Automatic error detection and user notification
+- Comprehensive reporting with actionable recommendations
+
+### 🧪 **Advanced Testing Support**
+- Multi-framework test generation (Jest, PyTest, JUnit, etc.)
+- Coverage analysis and gap identification
+- Special flags for automated test execution and coverage targets
+
+### 🏗️ **Architecture-Aware Development**
+- Consults existing architecture documentation
+- Maintains design consistency across implementations
+- Updates architectural documentation as projects evolve
+
+### 📊 **Comprehensive Reporting**
+- Timestamped reports for all operations
+- Detailed build logs with task completion tracking
+- Performance metrics and security vulnerability assessments
+
 ## Installation
 
 ### Prerequisites
@@ -70,14 +97,61 @@ curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/i
 
 After installation, the following commands will be available in Claude Code:
 
-- `/create-feature` - Plan and define a new feature
-- `/build` - Implement a planned feature
-- `/code-review` - Perform a comprehensive code review
-- `/security-audit` - Analyze code for security vulnerabilities
-- `/architecture-review` - Review project architecture
-- `/performance-audit` - Identify performance bottlenecks
-- `/generate-tests` - Create tests for existing code
-- `/fix-issue` - Fix a specific issue or bug
+### Core Development Commands
+
+- **`/create-feature`** - Plan and define a new feature with comprehensive task breakdown
+  - Analyzes requirements and creates atomic task lists
+  - Consults architecture documentation for design alignment
+  - Generates feature files in `.claude-sdlc/features/`
+  - Supports optional scaffolding of boilerplate code
+
+- **`/build`** - Implement a planned feature by executing its task checklist
+  - Loads feature plans from `.claude-sdlc/features/`
+  - Executes tasks sequentially with quality gates
+  - Supports parallel execution for independent tasks
+  - Pauses on errors for user guidance
+  - Generates comprehensive build reports
+
+### Quality Assurance Commands
+
+- **`/code-review`** - Comprehensive code quality analysis and review with flexible scope targeting
+  - **Targeted Review**: `--args commit-hash`, `--args branch-name`, `--args file-path`, `--args directory-path`
+  - **Comprehensive Review**: Reviews entire codebase when no arguments provided
+  - Analyzes style, correctness, security, performance, and maintainability
+  - Generates timestamped reports in `.claude-sdlc/reviews/`
+  - Supports JSX/TSX files for React codebases
+
+- **`/architecture-review`** - Analyze project architecture and design patterns for scalability
+  - Evaluates modularity, scalability, and design consistency
+  - Compares implementation with documented architecture
+  - Identifies architectural debt and improvement opportunities
+  - Creates reports in `.claude-sdlc/architecture-review/`
+
+- **`/security-audit`** - Comprehensive security vulnerability assessment and analysis
+  - Scans for hardcoded credentials, injection vulnerabilities, and insecure configurations
+  - Analyzes dependencies for known vulnerabilities
+  - Provides risk assessment and remediation guidance
+  - Supports targeted audits with `--args` parameter
+
+- **`/performance-review`** - Analyze codebase for performance bottlenecks and optimization opportunities
+  - Identifies algorithmic inefficiencies and resource usage issues
+  - Analyzes database queries, memory usage, and frontend performance
+  - Supports targeted performance analysis with `--args` parameter
+  - Generates reports in `.claude-sdlc/performance/`
+
+### Testing and Issue Resolution Commands
+
+- **`/generate-tests`** - Create comprehensive test cases to improve code coverage and reliability
+  - Supports multiple testing frameworks (Jest, PyTest, JUnit, etc.)
+  - Generates unit, integration, and edge case tests
+  - **Special flags**: `--run-tests` (execute tests after generation), `--coverage-target=N`
+  - Analyzes existing coverage and fills gaps
+
+- **`/fix-issues`** - Identify and resolve specific code issues
+  - Integrates with GitHub Issues via `gh` CLI
+  - Performs root cause analysis and implements fixes
+  - Creates fix reports in `.claude-sdlc/fixes/`
+  - Supports automated testing of fixes
 
 ## Directory Structure
 
@@ -87,15 +161,81 @@ Claude-SDLC creates the following directory structure in your project:
 .claude/
   commands/           # Command files for Claude Code
 .claude-sdlc/
-  features/           # Feature task lists
-  architecture/       # Architecture documentation
-  builds/             # Build reports
-  reviews/            # Code review reports
+  features/           # Feature task lists created by /create-feature
+  architecture/       # Architecture documentation and design specs
+  builds/             # Build reports from /build and /generate-tests
+  reviews/            # Code review reports from /code-review
+  performance/        # Performance analysis reports from /performance-review
+  fixes/              # Issue fix reports from /fix-issues
+```
+
+## Command Usage Examples
+
+### Code Review Examples
+```bash
+# Comprehensive codebase review
+/code-review
+
+# Review specific file or directory
+/code-review src/auth.js
+/code-review src/components/
+
+# Review specific commit or branch
+/code-review HEAD~3
+/code-review feature/user-auth
+
+# Review pull request changes
+/code-review PR#123
+```
+
+### Security Audit Examples
+```bash
+# Full security audit
+/security-audit
+
+# Audit specific component
+/security-audit src/auth/
+
+# Audit recent changes
+/security-audit HEAD~3..HEAD
+```
+
+### Performance Review Examples
+```bash
+# Comprehensive performance review
+/performance-review
+
+# Review specific component
+/performance-review src/api/
+
+# Review recent changes for performance impact
+/performance-review feature/optimization
+```
+
+### Test Generation Examples
+```bash
+# Generate tests for specific file
+/generate-tests src/utils.js
+
+# Generate tests with automatic execution
+/generate-tests src/auth.js --run-tests
+
+# Generate tests with coverage target
+/generate-tests src/components/ --coverage-target=80
+```
+
+### Issue Resolution Examples
+```bash
+# Fix specific GitHub issue
+/fix-issues 123
+
+# Fix issue by description
+/fix-issues login-error
 ```
 
 ## Customization
 
-You can customize any command by editing the corresponding Markdown file in the `.claude/commands/` directory. See the [Customization Guide](examples/customization.md) for more details.
+You can customize any command by editing the corresponding Markdown file in the `.claude/commands/` directory. All commands support the `$ARGUMENTS` parameter for flexible targeting and can be modified to fit your project's specific needs and conventions.
 
 ## Getting Started
 
@@ -144,26 +284,58 @@ This will:
 ```bash
 /code-review
 ```
+
 ##### Check for security issues
 ```bash
 /security-audit
+```
+
+##### Analyze performance
+```bash
+/performance-review
+```
+
+##### Generate additional tests if needed
+```bash
+/generate-tests user-authentication --run-tests
 ```
 
 ### Example: Adding a User Profile Feature
 
 Let's say you want to add a user profile feature to your TypeScript application:
 
-1. Run `/create-feature user-profile`
-2. Claude-SDLC will generate a plan with tasks like:
-   - Create user profile interface
-   - Implement profile service
-   - Add profile component
-   - Create API endpoints
-   - Write unit tests
-3. Run `/build user-profile` to implement the feature
-4. Review and test the generated code
+1. **Plan the feature**: Run `/create-feature user-profile`
+   - Claude-SDLC will generate a comprehensive plan with tasks like:
+     - Create user profile interface and types
+     - Implement profile service with API integration
+     - Add profile component with form validation
+     - Create API endpoints with proper authentication
+     - Write unit and integration tests
+     - Update documentation
 
-That's it! You've successfully added a new feature to your TypeScript project using Claude-SDLC.
+2. **Implement the feature**: Run `/build user-profile`
+   - Executes each task in the checklist
+   - Pauses if any errors occur for your review
+   - Generates a detailed build report
+
+3. **Quality assurance**: Run comprehensive reviews
+   ```bash
+   /code-review src/profile/          # Review the new profile code
+   /security-audit src/profile/       # Check for security issues
+   /performance-review src/profile/   # Analyze performance impact
+   ```
+
+4. **Generate additional tests if needed**:
+   ```bash
+   /generate-tests src/profile/ --run-tests --coverage-target=90
+   ```
+
+5. **Fix any issues found**:
+   ```bash
+   /fix-issues profile-validation-bug
+   ```
+
+That's it! You've successfully added a new feature to your TypeScript project using Claude-SDLC with comprehensive quality assurance.
 
 ## Acknowledgments
 

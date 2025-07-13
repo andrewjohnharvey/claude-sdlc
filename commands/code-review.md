@@ -134,7 +134,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
       - Assess deployment and build configurations
 
 12. **Report Generation and Documentation**
-    - Create comprehensive timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%dT%H%M%S)-code-review.md`
+    - Create comprehensive timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%d-%H%M)-code-review.md`
     - **Report Structure**:
       - Executive summary with scope and key findings
       - Detailed findings by category (Critical, High, Medium, Low priority)

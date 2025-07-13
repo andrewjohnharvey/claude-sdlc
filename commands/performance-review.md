@@ -94,7 +94,7 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - **Quality Gate**: Confirm baseline understanding before recommendations
 
 7. **Comprehensive Report Generation**
-   - Create timestamped report: `.claude-sdlc/performance/$(date +%Y-%m-%dT%H%M%S)-performance-review.md`
+   - Create timestamped report: `.claude-sdlc/performance/$(date +%Y-%m-%d-%H%M)-performance-review.md`
    - Structure findings by category, severity, and impact level
    - Include specific file references with line numbers and code examples
    - Provide detailed performance improvement recommendations

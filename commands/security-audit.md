@@ -57,7 +57,7 @@ Follow this systematic approach to perform security audit: **$ARGUMENTS**
    - Document attack vectors and scenarios
 
 5. **Report Generation**
-   - Create timestamped report: `.claude-sdlc/builds/$(date +%Y-%m-%dT%H%M%S)-security-audit.md`
+   - Create timestamped report: `.claude-sdlc/builds/$(date +%Y-%m-%d-%H%M)-security-audit.md`
    - Structure findings by category and severity
    - Include specific file references and remediation steps
    - Provide executive summary with risk overview

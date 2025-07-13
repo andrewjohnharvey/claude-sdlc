@@ -39,7 +39,7 @@ Follow this systematic approach to review architecture: **$ARGUMENTS**
    - Verify that major architectural decisions are documented
 
 4. **Report Generation**
-   - Create timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%dT%H%M%S)-architecture-review.md`
+   - Create timestamped report: `.claude-sdlc/arhitecture-review/$(date +%Y-%m-%d-%H%M)-architecture-review.md`
    - Structure findings by category (Modularity, Scalability, Consistency, Documentation)
    - Include specific examples and code references for each issue
    - Provide actionable recommendations for improvements
