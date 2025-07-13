@@ -33,7 +33,28 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - Load framework-specific optimization guidelines
    - **Quality Gate**: Confirm technology stack understanding before proceeding
 
-4. **Comprehensive Performance Analysis**
+4. **Parallel Performance Analysis Coordination and Sub-Agent Spawning**
+   - **Independent Performance Analysis Categories**: Spawn sub-agents for parallel analysis using the Task tool:
+     - **Sub-Agent A**: "Perform algorithmic efficiency analysis for $ARGUMENTS performance review"
+     - **Sub-Agent B**: "Perform database and I/O performance review for $ARGUMENTS performance review"
+     - **Sub-Agent C**: "Perform memory usage and resource optimization analysis for $ARGUMENTS performance review"
+     - **Sub-Agent D**: "Perform frontend performance analysis for $ARGUMENTS performance review"
+     - **Sub-Agent E**: "Perform build and configuration performance analysis for $ARGUMENTS performance review"
+
+   - **Sub-Agent Coordination**:
+     - Use multiple Task tool calls in a single message for parallel execution
+     - Each sub-agent receives context and scope from steps 1-3
+     - Include technology stack, performance requirements, and optimization guidelines
+     - Sub-agents focus on their specific performance domain and report detailed findings
+     - Main agent aggregates all performance findings for bottleneck identification and prioritization
+
+   - **Performance Analysis Distribution**:
+     - All sub-agents analyze the same target scope but focus on different performance aspects
+     - No conflicts since this is analysis-only (no code modifications)
+     - Each sub-agent provides detailed performance findings for their assigned category
+     - **Quality Gate**: Verify all parallel performance analysis tasks complete before bottleneck prioritization
+
+5. **Comprehensive Performance Analysis** *(This section now handled by Sub-Agents A-E in parallel)*
    - **Algorithmic Efficiency Analysis**
      - Identify inefficient loops and nested iterations (O(n²) or worse)
      - Check for unnecessary recursion and excessive complexity
@@ -78,7 +99,7 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
      - Review dependency management and package optimization
      - **Quality Gate**: Validate build performance analysis completeness
 
-5. **Critical Bottleneck Identification and Prioritization**
+6. **Critical Bottleneck Identification and Prioritization**
    - Prioritize issues by potential performance impact and severity
    - Identify critical path performance problems affecting user experience
    - Assess scalability limitations and architectural constraints
@@ -86,14 +107,14 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - Map performance issues to business impact and user workflows
    - **Quality Gate**: Ensure all critical bottlenecks are properly categorized
 
-6. **Performance Metrics and Baseline Analysis**
+7. **Performance Metrics and Baseline Analysis**
    - Analyze existing performance metrics and benchmarks
    - Review monitoring and profiling data if available
    - Identify performance regression patterns from git history
    - Document current performance baseline for comparison
    - **Quality Gate**: Confirm baseline understanding before recommendations
 
-7. **Comprehensive Report Generation**
+8. **Comprehensive Report Generation**
    - Create timestamped report: `.claude-sdlc/performance/$(date +%Y-%m-%d-%H%M)-performance-review.md`
    - Structure findings by category, severity, and impact level
    - Include specific file references with line numbers and code examples
@@ -103,7 +124,7 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - Include estimated effort and impact for each recommendation
    - **Quality Gate**: Verify report completeness and actionability
 
-8. **Optimization Strategy and Implementation Guidance**
+9. **Optimization Strategy and Implementation Guidance**
    - Suggest specific performance improvements for each identified issue
    - Recommend appropriate tools and techniques for optimization
    - Provide step-by-step implementation guidance and best practices
@@ -112,14 +133,14 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - Document performance monitoring and alerting recommendations
    - **Quality Gate**: Ensure all recommendations are actionable and measurable
 
-9. **Architecture Documentation Updates**
+10. **Architecture Documentation Updates**
    - Update `.claude-sdlc/architecture/` with performance findings
    - Document performance constraints and optimization decisions
    - Create or update performance architecture guidelines
    - Record performance-related architectural decisions
    - **Quality Gate**: Confirm architecture documentation is updated
 
-10. **Follow-up Planning and Next Steps**
+11. **Follow-up Planning and Next Steps**
     - Create action items for immediate performance improvements
     - Plan performance optimization sprint or iteration
     - Schedule follow-up performance reviews and monitoring
@@ -127,27 +148,27 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
     - Document performance improvement tracking methodology
     - **Quality Gate**: Ensure clear next steps are defined
 
-11. **Testing and Validation Recommendations**
+12. **Testing and Validation Recommendations**
     - Recommend performance testing strategies for identified issues
     - Suggest load testing and stress testing approaches
     - Plan performance regression testing procedures
     - Document performance monitoring and alerting setup
     - **Quality Gate**: Ensure testing recommendations are comprehensive
 
-12. **Documentation and Knowledge Sharing**
+13. **Documentation and Knowledge Sharing**
     - Update project documentation with performance findings
     - Create performance optimization guidelines for the team
     - Document performance best practices specific to the project
     - Share findings with relevant stakeholders
     - **Quality Gate**: Confirm all documentation is updated
 
-13. **Commit and Branch Management**
+14. **Commit and Branch Management**
     - Stage performance review documentation: `git add .claude-sdlc/performance/`
     - Commit with descriptive message: `git commit -m "performance: comprehensive performance review $(date +%Y-%m-%d)"`
     - Push performance review branch: `git push origin performance-review-$ARGUMENTS` (or performance-review-comprehensive)
     - **Quality Gate**: Ensure all changes are properly committed
 
-14. **Quality Assurance and Final Validation**
+15. **Quality Assurance and Final Validation**
     - Review all findings for accuracy and completeness
     - Validate recommendations against project constraints and feasibility
     - Ensure all performance issues are properly categorized and documented
@@ -155,7 +176,7 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
     - Verify all quality gates have been satisfied
     - **Final Quality Gate**: Complete performance review validation
 
-15. **Follow-up and Continuous Improvement**
+16. **Follow-up and Continuous Improvement**
     - Schedule implementation of high-priority performance improvements
     - Plan regular performance review cycles
     - Set up performance monitoring and alerting

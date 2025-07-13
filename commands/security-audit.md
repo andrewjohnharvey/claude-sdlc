@@ -23,7 +23,27 @@ Follow this systematic approach to perform security audit: **$ARGUMENTS**
    - Identify project-specific security requirements
    - Load security configuration and standards
 
-3. **Security Vulnerability Assessment**
+3. **Parallel Security Analysis Coordination and Sub-Agent Spawning**
+   - **Independent Security Analysis Categories**: Spawn sub-agents for parallel security analysis using the Task tool:
+     - **Sub-Agent A**: "Perform code security analysis for $ARGUMENTS security audit"
+     - **Sub-Agent B**: "Perform configuration security analysis for $ARGUMENTS security audit"
+     - **Sub-Agent C**: "Perform dependency security analysis for $ARGUMENTS security audit"
+     - **Sub-Agent D**: "Perform infrastructure security analysis for $ARGUMENTS security audit"
+
+   - **Sub-Agent Coordination**:
+     - Use multiple Task tool calls in a single message for parallel execution
+     - Each sub-agent receives the scope and context from steps 1-2
+     - Include security guidelines, threat models, and project requirements
+     - Sub-agents focus on their specific security domain and report detailed findings
+     - Main agent aggregates all security findings for comprehensive risk assessment
+
+   - **Security Analysis Distribution**:
+     - All sub-agents analyze the same target scope but focus on different security aspects
+     - No conflicts since this is analysis-only (no code modifications)
+     - Each sub-agent provides detailed vulnerability findings for their assigned category
+     - **Quality Gate**: Verify all parallel security analysis tasks complete before risk assessment
+
+4. **Security Vulnerability Assessment** *(This section now handled by Sub-Agents A-D in parallel)*
    - **Code Security Analysis**
      - Scan for hardcoded credentials and secrets
      - Check input validation and output encoding
@@ -50,26 +70,26 @@ Follow this systematic approach to perform security audit: **$ARGUMENTS**
      - Assess network security and firewall rules
      - Verify TLS/SSL configuration and certificates
 
-4. **Risk Assessment and Classification**
+5. **Risk Assessment and Classification**
    - Classify findings by severity (Critical, High, Medium, Low)
    - Assess potential impact and exploitability
    - Prioritize issues based on business risk
    - Document attack vectors and scenarios
 
-5. **Report Generation**
+6. **Report Generation**
    - Create timestamped report: `.claude-sdlc/builds/$(date +%Y-%m-%d-%H%M)-security-audit.md`
    - Structure findings by category and severity
    - Include specific file references and remediation steps
    - Provide executive summary with risk overview
    - Add compliance and regulatory considerations
 
-6. **Remediation Guidance**
+7. **Remediation Guidance**
    - Provide specific fix recommendations for each issue
    - Suggest security best practices and tools
    - Recommend immediate actions for critical vulnerabilities
    - Plan follow-up security testing and validation
 
-7. **Next Steps and Integration**
+8. **Next Steps and Integration**
    - Recommend `/fix-issue` for critical vulnerabilities that need immediate attention
    - Suggest `/code-review` for areas with multiple security concerns
    - Propose follow-up `/security-audit` after remediation to verify fixes

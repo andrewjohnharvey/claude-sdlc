@@ -13,7 +13,27 @@ Follow this systematic approach to review architecture: **$ARGUMENTS**
    - Map project structure: `find . -maxdepth 2 -type d`
    - Identify architectural patterns and technology stack
 
-2. **Architecture Assessment**
+2. **Parallel Architecture Analysis Coordination and Sub-Agent Spawning**
+   - **Independent Architecture Analysis Categories**: Spawn sub-agents for parallel analysis using the Task tool:
+     - **Sub-Agent A**: "Perform modularity analysis for $ARGUMENTS architecture review"
+     - **Sub-Agent B**: "Perform scalability evaluation for $ARGUMENTS architecture review"
+     - **Sub-Agent C**: "Perform design consistency analysis for $ARGUMENTS architecture review"
+     - **Sub-Agent D**: "Perform documentation review for $ARGUMENTS architecture review"
+
+   - **Sub-Agent Coordination**:
+     - Use multiple Task tool calls in a single message for parallel execution
+     - Each sub-agent receives the context and scope from step 1
+     - Include project structure, technology stack, and architectural patterns
+     - Sub-agents focus on their specific architectural domain and report detailed findings
+     - Main agent aggregates all architectural findings for comprehensive report generation
+
+   - **Architecture Analysis Distribution**:
+     - All sub-agents analyze the same project scope but focus on different architectural aspects
+     - No conflicts since this is analysis-only (no code modifications)
+     - Each sub-agent provides detailed findings for their assigned architectural category
+     - **Quality Gate**: Verify all parallel architecture analysis tasks complete before report generation
+
+3. **Architecture Assessment** *(This section now handled by Sub-Agents A-C in parallel)*
    - **Modularity Analysis**
      - Examine separation of concerns across modules
      - Identify tightly coupled components
@@ -32,26 +52,26 @@ Follow this systematic approach to review architecture: **$ARGUMENTS**
      - Review API design and interface consistency
      - Assess error handling and logging patterns
 
-3. **Documentation Review**
+4. **Documentation Review** *(This section now handled by Sub-Agent D in parallel)*
    - Compare documented architecture with actual implementation
    - Identify gaps between design specs and code reality
    - Check for outdated or missing architectural documentation
    - Verify that major architectural decisions are documented
 
-4. **Report Generation**
+5. **Report Generation**
    - Create timestamped report: `.claude-sdlc/arhitecture-review/$(date +%Y-%m-%d-%H%M)-architecture-review.md`
    - Structure findings by category (Modularity, Scalability, Consistency, Documentation)
    - Include specific examples and code references for each issue
    - Provide actionable recommendations for improvements
    - Add executive summary highlighting key findings and priorities
 
-5. **Improvement Planning**
+6. **Improvement Planning**
    - Identify critical issues requiring immediate attention
    - Suggest feature plans for major architectural improvements
    - Recommend follow-up actions and next steps
    - Consider creating feature plans for significant refactoring needs
 
-6. **Quality Validation**
+7. **Quality Validation**
    - Ensure all findings are backed by specific evidence
    - Verify recommendations align with project goals and constraints
    - Check that report is actionable and prioritized

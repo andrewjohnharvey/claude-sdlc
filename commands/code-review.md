@@ -41,7 +41,30 @@ Follow this systematic approach to review code: **$ARGUMENTS**
      - Security-sensitive areas (authentication, data handling)
      - Performance-critical paths
 
-5. **Style and Formatting Analysis**
+5. **Parallel Analysis Coordination and Sub-Agent Spawning**
+   - **Independent Analysis Categories**: Spawn sub-agents for parallel analysis using the Task tool:
+     - **Sub-Agent A**: "Perform style and formatting analysis for $ARGUMENTS code review"
+     - **Sub-Agent B**: "Perform correctness and logic review for $ARGUMENTS code review"
+     - **Sub-Agent C**: "Perform security assessment and vulnerability scan for $ARGUMENTS code review"
+     - **Sub-Agent D**: "Perform performance analysis and optimization review for $ARGUMENTS code review"
+     - **Sub-Agent E**: "Perform maintainability and code quality evaluation for $ARGUMENTS code review"
+     - **Sub-Agent F**: "Perform testing coverage and quality analysis for $ARGUMENTS code review"
+     - **Sub-Agent G**: "Perform dependency and configuration review for $ARGUMENTS code review"
+
+   - **Sub-Agent Coordination**:
+     - Use multiple Task tool calls in a single message for parallel execution
+     - Each sub-agent receives the file list from step 4 and focuses on their specific analysis category
+     - Include context: project scope, technology stack, and coding standards from steps 1-3
+     - Sub-agents report findings in their category and reference specific files with line numbers
+     - Main agent aggregates all sub-agent findings for comprehensive report generation
+
+   - **Analysis Distribution**:
+     - All sub-agents analyze the same file set but focus on different quality aspects
+     - No file conflicts since this is analysis-only (no code modifications)
+     - Each sub-agent provides detailed findings for their assigned category
+     - **Quality Gate**: Verify all parallel analysis tasks complete before report generation
+
+6. **Style and Formatting Analysis** *(This section now handled by Sub-Agent A in parallel)*
    - **Naming Conventions**
      - Verify consistent variable, function, and class naming
      - Check for meaningful and descriptive names
@@ -55,7 +78,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
      - Flag commented-out code blocks for removal
      - Assess code formatting consistency
 
-6. **Correctness and Logic Review**
+7. **Correctness and Logic Review** *(This section now handled by Sub-Agent B in parallel)*
    - **Algorithm and Logic Analysis**
      - Analyze control flow and conditional logic
      - Check for off-by-one errors and boundary conditions
@@ -68,7 +91,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
      - Ensure graceful degradation for failure scenarios
      - Review input validation and sanitization
 
-7. **Security Assessment and Vulnerability Scan**
+8. **Security Assessment and Vulnerability Scan** *(This section now handled by Sub-Agent C in parallel)*
    - **Common Vulnerability Patterns**
      - Scan for SQL injection risks in database queries
      - Check for XSS vulnerabilities in user input handling
@@ -81,7 +104,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
      - Review data encryption and hashing implementations
      - Assess logging practices for sensitive information leakage
 
-8. **Performance Analysis and Optimization**
+9. **Performance Analysis and Optimization** *(This section now handled by Sub-Agent D in parallel)*
    - **Algorithm Efficiency**
      - Identify potential bottlenecks and inefficient algorithms
      - Check for N+1 query patterns in database operations
@@ -94,7 +117,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
      - Review caching strategies and opportunities
      - Assess database query optimization needs
 
-9. **Maintainability and Code Quality Evaluation**
+10. **Maintainability and Code Quality Evaluation** *(This section now handled by Sub-Agent E in parallel)*
    - **Code Complexity Assessment**
      - Flag overly complex or long functions (>50 lines)
      - Identify deeply nested code structures
@@ -107,7 +130,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
      - Assess API documentation completeness
      - Review README and setup instructions
 
-10. **Testing Coverage and Quality Analysis**
+11. **Testing Coverage and Quality Analysis** *(This section now handled by Sub-Agent F in parallel)*
     - **Test Presence and Coverage**
       - Identify components lacking unit tests
       - Check for integration and end-to-end test coverage
@@ -120,7 +143,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
       - Verify edge case and error condition testing
       - Assess test performance and execution time
 
-11. **Dependency and Configuration Review**
+12. **Dependency and Configuration Review** *(This section now handled by Sub-Agent G in parallel)*
     - **Dependency Management**
       - Check for outdated or vulnerable dependencies using package files
       - Identify unused or redundant dependencies
@@ -133,7 +156,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
       - Verify proper secrets management
       - Assess deployment and build configurations
 
-12. **Report Generation and Documentation**
+13. **Report Generation and Documentation**
     - Create comprehensive timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%d-%H%M)-code-review.md`
     - **Report Structure**:
       - Executive summary with scope and key findings
@@ -143,7 +166,7 @@ Follow this systematic approach to review code: **$ARGUMENTS**
       - Actionable recommendations with implementation guidance
     - **Do not modify source code** - only analyze and report findings
 
-13. **Priority Assessment and Categorization**
+14. **Priority Assessment and Categorization**
     - **Critical Issues** (immediate attention required):
       - Security vulnerabilities
       - Logic errors that could cause data loss
@@ -159,13 +182,13 @@ Follow this systematic approach to review code: **$ARGUMENTS**
       - Documentation improvements
       - Refactoring opportunities
 
-14. **Integration with Development Workflow**
+15. **Integration with Development Workflow**
     - Reference related issues or tickets if reviewing specific changes
     - Suggest appropriate branch protection rules or CI/CD improvements
     - Recommend code review checklist items for future reviews
     - Document patterns and anti-patterns discovered for team knowledge
 
-15. **Next Steps and Actionable Guidance**
+16. **Next Steps and Actionable Guidance**
     - **Immediate Actions** for critical issues:
       - Run `/fix-issue <issue-number>` for specific bugs
       - Use project linting tools: `npm run lint` or `flake8` or equivalent

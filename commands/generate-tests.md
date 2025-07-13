@@ -54,7 +54,34 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
    - Review existing architecture documentation in `.claude-sdlc/architecture/`
    - Check for related features in `.claude-sdlc/features/` if applicable
 
-5. **Test Coverage Analysis and Gap Assessment**
+5. **Parallel Test Generation Coordination and Sub-Agent Spawning** *(For multi-file or multi-category scenarios)*
+   - **Multi-File Test Generation**: When $ARGUMENTS targets a directory or multiple files, spawn sub-agents for parallel test creation:
+     - **Sub-Agent A**: "Generate tests for file set A from $ARGUMENTS test generation"
+     - **Sub-Agent B**: "Generate tests for file set B from $ARGUMENTS test generation"
+     - **Sub-Agent C**: "Generate tests for file set C from $ARGUMENTS test generation"
+     - *(Continue pattern based on number of files/modules)*
+
+   - **Multi-Category Test Generation**: For comprehensive testing of single components, spawn sub-agents by test type:
+     - **Sub-Agent A**: "Generate unit tests for $ARGUMENTS test generation"
+     - **Sub-Agent B**: "Generate integration tests for $ARGUMENTS test generation"
+     - **Sub-Agent C**: "Generate edge case and error handling tests for $ARGUMENTS test generation"
+     - **Sub-Agent D**: "Generate performance and security tests for $ARGUMENTS test generation"
+
+   - **Sub-Agent Coordination**:
+     - Use multiple Task tool calls in a single message for parallel execution
+     - Each sub-agent receives context from steps 1-4 and focuses on their assigned scope
+     - Include testing framework, conventions, and project-specific patterns
+     - Sub-agents report test files created, coverage achieved, and any issues encountered
+     - Main agent aggregates all test results and generates comprehensive report
+
+   - **Test Generation Distribution Guidelines**:
+     - Assign different files/directories to different sub-agents to avoid conflicts
+     - For single-file scenarios, assign different test categories (unit, integration, etc.)
+     - Each sub-agent follows steps 6-9 for their assigned scope
+     - No file conflicts since each sub-agent works on distinct test files
+     - **Quality Gate**: Verify all parallel test generation tasks complete successfully
+
+6. **Test Coverage Analysis and Gap Assessment** *(For single file/simple scenarios, or as follow-up to parallel generation)*
    - **Current Coverage Assessment:**
      - Run existing test coverage tools: `npm run test:coverage`, `pytest --cov`, or `go test -cover`
      - Generate coverage reports: `jest --coverage` or equivalent
@@ -76,7 +103,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - **Performance Considerations**: Load testing and scalability where applicable
      - **Regression Testing**: Ensure existing functionality remains intact
 
-6. **Test Case Design and Planning**
+7. **Test Case Design and Planning**
    - Create test plan document for $ARGUMENTS with:
      - Test objectives and success criteria
      - Test scenarios and expected outcomes
@@ -104,7 +131,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Concurrent access and race condition scenarios
      - Network failures and timeout handling
 
-7. **Test Implementation and Code Generation**
+8. **Test Implementation and Code Generation**
    - Create or update test files following project conventions:
      - Use appropriate naming: `test_$ARGUMENTS.py`, `$ARGUMENTS.test.js`, etc.
      - Place in correct directory structure (`tests/`, `__tests__/`, `test/`)
@@ -117,7 +144,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
    - Ensure tests are independent and can run in any order
    - **Quality Gate**: Verify all generated tests compile/parse correctly
 
-8. **Test Execution and Validation**
+9. **Test Execution and Validation**
    - **Initial Test Run**: Execute generated tests to verify they pass
      - Run specific tests: `npm test tests/$ARGUMENTS` or `pytest tests/test_$ARGUMENTS.py`
      - Check for syntax errors, import issues, or configuration problems
@@ -140,7 +167,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Verify proper cleanup and resource management
      - **Quality Gate**: Tests must be reliable and maintainable
 
-9. **Code Quality and Standards Compliance**
+10. **Code Quality and Standards Compliance**
    - **Linting and Formatting**: Run code quality tools on test code
      - Execute linting: `npm run lint` or `flake8 tests/`
      - Apply formatting: `npm run format` or `black tests/`
@@ -159,7 +186,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Ensure tests are readable and maintainable
      - **Quality Gate**: Test code quality must meet production standards
 
-10. **Documentation and Reporting**
+11. **Documentation and Reporting**
     - **Create Build Report**: Generate comprehensive test report following PRD specifications
       - File path: `.claude-sdlc/builds/test-generation-$ARGUMENTS-$(date +%Y-%m-%d-%H-%M).md`
       - Include timestamp and unique identifier for traceability
@@ -183,14 +210,14 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
       - Update architecture docs in `.claude-sdlc/architecture/` if relevant
       - **Quality Gate**: All documentation must be current and accurate
 
-11. **Git Integration and Version Control**
+12. **Git Integration and Version Control**
     - Stage test files and related changes: `git add tests/`
     - Create descriptive commit message: `test: add comprehensive tests for $ARGUMENTS`
     - Commit the changes: `git commit -m "test: add comprehensive tests for $ARGUMENTS"`
     - Push the test branch: `git push origin tests/$ARGUMENTS`
     - **Quality Gate**: Ensure all changes are properly committed and pushed
 
-12. **Pull Request and Code Review Preparation**
+13. **Pull Request and Code Review Preparation**
     - Create pull request for test additions: `gh pr create --title "Add tests for $ARGUMENTS"`
     - Include in PR description:
       - Summary of tests added for $ARGUMENTS
@@ -200,14 +227,14 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
     - Add appropriate labels and request reviewers
     - Link to related issues or features if applicable
 
-13. **Continuous Integration and Monitoring**
+14. **Continuous Integration and Monitoring**
     - Verify tests pass in CI/CD pipeline
     - Monitor test execution times and performance
     - Set up test result notifications and reporting
     - Plan for test maintenance and updates
     - **Quality Gate**: All CI checks must pass before merge
 
-14. **Advanced Testing Considerations**
+15. **Advanced Testing Considerations**
     - **Performance Testing**: If $ARGUMENTS involves performance-critical code
       - Add benchmark tests for key functions
       - Set up performance regression detection
@@ -223,7 +250,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
       - Set up test result reporting and notifications
       - Configure test parallelization if supported
 
-15. **Follow-up and Continuous Improvement**
+16. **Follow-up and Continuous Improvement**
     - **Immediate Actions**:
       - Run full test suite to verify integration: `npm run test:all`
       - Monitor test execution in CI/CD pipeline

@@ -37,14 +37,31 @@ Follow this systematic approach to build feature: **$ARGUMENTS**
    - Re-run necessary checks after fixes to ensure problems are resolved
    - **Quality Gate**: Verify all tests pass before proceeding to next task
 
-5. **Parallel Task Coordination**
-   - Identify tasks that can run independently (different files/components)
-   - Spawn separate Claude sub-agents for concurrent execution
-   - Monitor all threads and coordinate between sub-agents
-   - Pause all agents if any sub-task fails
-   - Ensure no conflicts (avoid multiple agents editing same files)
-   - **Quality Gate**: Synchronize at logical points for proper integration
-   - Verify all parallel tasks complete successfully before proceeding
+5. **Parallel Task Coordination and Sub-Agent Spawning**
+   - **Identify Independent Tasks**: Review the feature checklist and group tasks that:
+     - Operate on different files or components
+     - Have no dependencies on each other's completion
+     - Can be executed simultaneously without conflicts
+   
+   - **Automatic Sub-Agent Spawning**: For independent task groups, use the Task tool to spawn sub-agents:
+     - Use multiple Task tool calls in a single message for parallel execution
+     - Each sub-agent receives specific tasks: "Implement task X from feature $ARGUMENTS checklist"
+     - Include relevant context: feature requirements, architecture constraints, coding standards
+     - Ensure each sub-agent knows to report back with implementation status and any issues
+   
+   - **Task Distribution Examples**:
+     - Frontend components → Sub-agent A
+     - Backend API endpoints → Sub-agent B  
+     - Database migrations → Sub-agent C
+     - Configuration files → Sub-agent D
+   
+   - **Coordination Guidelines**:
+     - No file conflicts: Assign different files/directories to different sub-agents
+     - Each sub-agent updates progress in `.claude-sdlc/features/$ARGUMENTS.md`
+     - Sub-agents report completion status, files modified, and any errors encountered
+     - Main agent aggregates results and handles integration between completed tasks
+   
+   - **Quality Gate**: Verify all parallel tasks complete successfully and integrate properly before proceeding
 
 6. **Generate Build Report**
    - Create comprehensive build report upon completion or failure
