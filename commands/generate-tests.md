@@ -24,10 +24,67 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
    - Check current working directory and project structure
    - Stash any uncommitted changes if necessary: `git stash`
 
-3. **Testing Framework Detection and Setup**
+3. **Project Context and Testing Guidelines Review**
+
+   #### CLAUDE.md Integration
+   - Check if CLAUDE.md exists in project root directory
+   - If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific testing guidelines with `claude init`?"
+   - If present, reference CLAUDE.md for:
+     - Testing preferences and comprehensive testing requirements
+     - TypeScript strict typing requirements for tests
+     - Quality validation standards and coverage expectations
+     - Testing framework preferences and testing approaches
+   - Apply CLAUDE.md guidelines throughout test generation process
+
+4. **Testing Framework Detection and Setup**
    - Scan project for existing testing setup:
      - Check for `tests/`, `test/`, `__tests__/`, `spec/` directories
      - Identify framework from config files (`jest.config.js`, `pytest.ini`, `vitest.config.js`, `karma.conf.js`, etc.)
+   ### MCP-Enhanced Test Generation
+     - **Context7**: For testing documentation lookup and best practice validation
+       - Retrieve official testing documentation for detected frameworks
+       - Validate test patterns against documented best practices
+       - Access library-specific testing guidelines and examples
+       - Compare generated tests against community standards
+     
+     - **Sequential Thinking**: For complex test case analysis and structured test design
+       - Analyze complex business logic for comprehensive test coverage
+       - Design multi-step test scenarios with structured reasoning
+       - Plan test strategy for interdependent components
+       - Evaluate test coverage gaps through systematic analysis
+     
+     - **Convex**: For database testing and real-time feature test automation
+       - Generate tests for database schema and operations
+       - Create tests for real-time subscriptions and data updates
+       - Validate data consistency and transaction handling
+       - Test concurrent access patterns and race conditions
+     
+     - **Playwright**: For UI testing automation and browser-based test generation
+       - Generate end-to-end user journey tests
+       - Create visual regression tests with screenshots
+       - Automate cross-browser compatibility testing
+       - Generate accessibility tests for UI components
+       - Test responsive design and mobile interactions
+     
+     - **Shadcn UI**: For component testing standards and accessibility test generation
+       - Ensure component tests follow design system standards
+       - Generate accessibility compliance tests (WCAG guidelines)
+       - Validate component prop interfaces and behaviors
+       - Test component variants and state transitions
+       - Verify theme and styling consistency
+     
+     - **Other custom MCP servers**: As available in your environment
+       - Leverage project-specific MCP tools for specialized testing
+       - Integrate with custom testing frameworks and tools
+       - Use domain-specific testing patterns and validations
+     
+     - **MCP Integration Throughout Test Generation**:
+       - Use available MCP capabilities for testing framework documentation and pattern validation
+       - Apply structured test case design and coverage analysis through Sequential Thinking
+       - Implement database testing automation and data validation via Convex integration
+       - Deploy UI/UX testing automation and visual regression testing with Playwright
+       - Ensure component testing standards and accessibility compliance using Shadcn UI
+       - Integrate any additional MCP servers for enhanced testing capabilities
      - Review package dependencies for testing libraries (`jest`, `pytest`, `mocha`, `junit`, `rspec`, etc.)
      - Look for existing test patterns, naming conventions, and helper utilities
      - Check for test scripts in `package.json` or build files
@@ -45,7 +102,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Install testing dependencies: `npm install --save-dev jest` or equivalent
      - Set up test scripts and CI integration
 
-4. **Code Analysis and Context Gathering**
+5. **Code Analysis and Context Gathering**
    - Read and analyze target code for $ARGUMENTS to understand:
      - Function signatures, parameters, and return types
      - Business logic and data flow
@@ -54,7 +111,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
    - Review existing architecture documentation in `.claude-sdlc/architecture/`
    - Check for related features in `.claude-sdlc/features/` if applicable
 
-5. **Parallel Test Generation Coordination and Sub-Agent Spawning** *(For multi-file or multi-category scenarios)*
+6. **Parallel Test Generation Coordination and Sub-Agent Spawning** *(For multi-file or multi-category scenarios)*
    - **Multi-File Test Generation**: When $ARGUMENTS targets a directory or multiple files, spawn sub-agents for parallel test creation:
      - **Sub-Agent A**: "Generate tests for file set A from $ARGUMENTS test generation"
      - **Sub-Agent B**: "Generate tests for file set B from $ARGUMENTS test generation"
@@ -81,7 +138,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - No file conflicts since each sub-agent works on distinct test files
      - **Quality Gate**: Verify all parallel test generation tasks complete successfully
 
-6. **Test Coverage Analysis and Gap Assessment** *(For single file/simple scenarios, or as follow-up to parallel generation)*
+7. **Test Coverage Analysis and Gap Assessment** *(For single file/simple scenarios, or as follow-up to parallel generation)*
    - **Current Coverage Assessment:**
      - Run existing test coverage tools: `npm run test:coverage`, `pytest --cov`, or `go test -cover`
      - Generate coverage reports: `jest --coverage` or equivalent
@@ -103,7 +160,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - **Performance Considerations**: Load testing and scalability where applicable
      - **Regression Testing**: Ensure existing functionality remains intact
 
-7. **Test Case Design and Planning**
+8. **Test Case Design and Planning**
    - Create test plan document for $ARGUMENTS with:
      - Test objectives and success criteria
      - Test scenarios and expected outcomes
@@ -131,7 +188,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Concurrent access and race condition scenarios
      - Network failures and timeout handling
 
-8. **Test Implementation and Code Generation**
+9. **Test Implementation and Code Generation**
    - Create or update test files following project conventions:
      - Use appropriate naming: `test_$ARGUMENTS.py`, `$ARGUMENTS.test.js`, etc.
      - Place in correct directory structure (`tests/`, `__tests__/`, `test/`)
@@ -144,7 +201,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
    - Ensure tests are independent and can run in any order
    - **Quality Gate**: Verify all generated tests compile/parse correctly
 
-9. **Test Execution and Validation**
+10. **Test Execution and Validation**
    - **Initial Test Run**: Execute generated tests to verify they pass
      - Run specific tests: `npm test tests/$ARGUMENTS` or `pytest tests/test_$ARGUMENTS.py`
      - Check for syntax errors, import issues, or configuration problems
@@ -167,7 +224,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Verify proper cleanup and resource management
      - **Quality Gate**: Tests must be reliable and maintainable
 
-10. **Code Quality and Standards Compliance**
+11. **Code Quality and Standards Compliance**
    - **Linting and Formatting**: Run code quality tools on test code
      - Execute linting: `npm run lint` or `flake8 tests/`
      - Apply formatting: `npm run format` or `black tests/`
@@ -186,7 +243,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
      - Ensure tests are readable and maintainable
      - **Quality Gate**: Test code quality must meet production standards
 
-11. **Documentation and Reporting**
+12. **Documentation and Reporting**
     - **Create Build Report**: Generate comprehensive test report following PRD specifications
       - File path: `.claude-sdlc/builds/test-generation-$ARGUMENTS-$(date +%Y-%m-%d-%H-%M).md`
       - Include timestamp and unique identifier for traceability
@@ -204,20 +261,27 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
       - **Recommendations**: Suggestions for additional testing and improvements
       - **Next Steps**: Follow-up actions and maintenance requirements
 
+    #### File Persistence Guidelines
+    - Automatically save all generated test files and implementation reports immediately after creation
+    - Save intermediate test development progress to avoid work loss during comprehensive test generation
+    - Confirm file locations with user for all generated test content and reports
+    - No manual saving steps required from user
+    - Verify all test files and build reports are properly persisted in appropriate directories
+
     - **Update Project Documentation**:
       - Update README.md if testing setup changed
       - Modify contributing guidelines if new test patterns introduced
       - Update architecture docs in `.claude-sdlc/architecture/` if relevant
       - **Quality Gate**: All documentation must be current and accurate
 
-12. **Git Integration and Version Control**
+13. **Git Integration and Version Control**
     - Stage test files and related changes: `git add tests/`
     - Create descriptive commit message: `test: add comprehensive tests for $ARGUMENTS`
     - Commit the changes: `git commit -m "test: add comprehensive tests for $ARGUMENTS"`
     - Push the test branch: `git push origin tests/$ARGUMENTS`
     - **Quality Gate**: Ensure all changes are properly committed and pushed
 
-13. **Pull Request and Code Review Preparation**
+14. **Pull Request and Code Review Preparation**
     - Create pull request for test additions: `gh pr create --title "Add tests for $ARGUMENTS"`
     - Include in PR description:
       - Summary of tests added for $ARGUMENTS
@@ -227,14 +291,14 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
     - Add appropriate labels and request reviewers
     - Link to related issues or features if applicable
 
-14. **Continuous Integration and Monitoring**
+15. **Continuous Integration and Monitoring**
     - Verify tests pass in CI/CD pipeline
     - Monitor test execution times and performance
     - Set up test result notifications and reporting
     - Plan for test maintenance and updates
     - **Quality Gate**: All CI checks must pass before merge
 
-15. **Advanced Testing Considerations**
+16. **Advanced Testing Considerations**
     - **Performance Testing**: If $ARGUMENTS involves performance-critical code
       - Add benchmark tests for key functions
       - Set up performance regression detection
@@ -250,7 +314,7 @@ Follow this systematic approach to generate tests: **$ARGUMENTS**
       - Set up test result reporting and notifications
       - Configure test parallelization if supported
 
-16. **Follow-up and Continuous Improvement**
+17. **Follow-up and Continuous Improvement**
     - **Immediate Actions**:
       - Run full test suite to verify integration: `npm run test:all`
       - Monitor test execution in CI/CD pipeline
