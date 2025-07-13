@@ -7,7 +7,7 @@ set -e
 
 # Default values
 PROJECT_DIR="$(pwd)"
-REPO_URL="https://github.com/NomenAK/SuperClaude.git"
+REPO_URL="https://github.com/andrewjohnharvey/claude-sdlc.git"
 TEMP_DIR="/tmp/claude-sdlc-$(date +%s)"
 UPDATE_MODE=false
 DRY_RUN=false
@@ -101,6 +101,12 @@ fi
 log "Cloning Claude-SDLC repository..."
 execute "git clone $REPO_URL $TEMP_DIR"
 
+# Debug: Show what was cloned
+if [[ "$VERBOSE" == true ]]; then
+  log "Contents of cloned repository:"
+  ls -la "$TEMP_DIR"
+fi
+
 # Create directory structure
 log "Creating directory structure..."
 execute "mkdir -p \"$PROJECT_DIR/.claude/commands\""
@@ -111,7 +117,23 @@ execute "mkdir -p \"$PROJECT_DIR/.claude-sdlc/reviews\""
 
 # Copy command files
 log "Copying command files..."
-execute "cp $TEMP_DIR/commands/*.md \"$PROJECT_DIR/.claude/commands/\""
+if [[ ! -d "$TEMP_DIR/commands" ]]; then
+  log "Error: Commands directory not found in cloned repository at $TEMP_DIR/commands"
+  log "Available directories in $TEMP_DIR:"
+  ls -la "$TEMP_DIR"
+  exit 1
+fi
+
+# Check if any .md files exist in commands directory
+md_files=("$TEMP_DIR/commands"/*.md)
+if [[ ! -f "${md_files[0]}" ]]; then
+  log "Error: No .md files found in $TEMP_DIR/commands"
+  log "Available files in commands directory:"
+  ls -la "$TEMP_DIR/commands"
+  exit 1
+fi
+
+execute "cp \"$TEMP_DIR/commands\"/*.md \"$PROJECT_DIR/.claude/commands/\""
 
 # Initialize README files in each directory
 if [[ "$DRY_RUN" == false ]]; then

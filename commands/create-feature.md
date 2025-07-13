@@ -7,7 +7,7 @@ Scaffold new feature with boilerplate code
 Follow this systematic approach to create a new feature: **$ARGUMENTS**
 
 1. **Feature Planning**
-   - Define the feature requirements and acceptance criteria for: $ARGUMENTS
+   - Define the feature requirements and acceptance criteria for: `$ARGUMENTS`
    - Break down the feature into smaller, manageable tasks
    - Identify affected components and potential impact areas
    - Plan the API/interface design before implementation

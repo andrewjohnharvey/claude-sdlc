@@ -69,4 +69,19 @@ Follow this systematic approach to perform security audit: **$ARGUMENTS**
    - Recommend immediate actions for critical vulnerabilities
    - Plan follow-up security testing and validation
 
+7. **Next Steps and Integration**
+   - Recommend `/fix-issue` for critical vulnerabilities that need immediate attention
+   - Suggest `/code-review` for areas with multiple security concerns
+   - Propose follow-up `/security-audit` after remediation to verify fixes
+   - Consider `/generate-tests` to create security-focused test cases
+
+## Usage Examples
+
+- `/security-audit` - Run a comprehensive security audit on the entire codebase
+- `/security-audit src/auth/` - Audit security of authentication components
+- `/security-audit HEAD~3..HEAD` - Review security of the last 3 commits
+- `/security-audit --focus=injection` - Focus audit on injection vulnerabilities
+- `/security-audit --severity=critical` - Only report critical security issues
+- `/security-audit --auto-fix` - Attempt to automatically fix simple security issues
+
 Remember to focus on actionable security improvements and provide clear guidance for addressing vulnerabilities systematically.
