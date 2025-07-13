@@ -29,6 +29,59 @@ Follow this structured approach to analyze and fix issues: **$ARGUMENTS**
    - Analyze the code logic and identify the root cause
    - Check for related issues or similar patterns
 
+### Project Context and Debugging Guidelines
+
+#### CLAUDE.md Integration
+- Check if CLAUDE.md exists in project root directory
+- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific debugging guidelines with `claude init`?"
+- If present, reference CLAUDE.md for:
+  - Error handling preferences and comprehensive edge case testing
+  - Debugging workflow and research-first development approach
+  - Code quality standards during fixes (TypeScript strict typing, validation patterns)
+  - Incremental fix approaches over large refactors
+  - Testing and validation requirements before marking issues resolved
+- Apply CLAUDE.md guidelines throughout the issue resolution process
+
+### MCP-Enhanced Issue Resolution
+
+Leverage MCP (Model Context Protocol) capabilities throughout issue resolution for enhanced debugging and systematic problem-solving:
+
+- **Context7**: For issue documentation lookup and known solution validation
+  - Search for official documentation related to the issue
+  - Validate solutions against library/framework best practices
+  - Find community-reported similar issues and proven fixes
+
+- **Sequential Thinking**: For complex debugging analysis and structured problem-solving
+  - Use structured thinking to break down complex issues into manageable components
+  - Evaluate multiple potential causes and solutions systematically
+  - Create decision trees for multi-step debugging approaches
+
+- **Convex**: For database-related issue diagnosis and real-time feature debugging
+  - Analyze database schema and relationship issues
+  - Debug real-time data synchronization problems
+  - Validate data integrity and query performance issues
+
+- **Playwright**: For UI/UX issue reproduction and automated testing validation
+  - Create automated reproduction scripts for UI bugs
+  - Generate comprehensive browser-based test cases
+  - Validate fixes through automated user journey testing
+
+- **Shadcn UI**: For component issue diagnosis and design system compliance
+  - Verify component usage against design system standards
+  - Check for accessibility compliance issues
+  - Validate consistent styling and interaction patterns
+
+- **Other custom MCP servers**: As available in your environment
+  - Utilize project-specific MCP servers for specialized debugging
+  - Leverage domain-specific analysis tools when available
+
+**Use available MCP capabilities throughout issue resolution for:**
+- Issue documentation and known solution lookup
+- Structured debugging analysis and systematic problem-solving
+- Database issue diagnosis and data integrity validation
+- UI/UX issue reproduction and automated fix validation
+- Component issue diagnosis and design system compliance checking
+
 5. **Parallel Analysis Coordination and Sub-Agent Spawning** *(For multi-component or complex issues)*
    - **Multi-Component Issue Analysis**: When the issue spans multiple files, components, or systems, spawn sub-agents for parallel analysis:
      - **Sub-Agent A**: "Analyze component A for issue $ARGUMENTS root cause analysis"
@@ -84,6 +137,14 @@ Follow this structured approach to analyze and fix issues: **$ARGUMENTS**
    - Create fix report: `.claude-sdlc/fixes/$(date +%Y-%m-%d)-issue-$ARGUMENTS.md`
    - Document the issue, root cause, and solution
    - Include before/after code examples
+   
+   #### File Persistence Guidelines
+   - Automatically save all issue fix reports and analysis files immediately after generation
+   - Save intermediate debugging analysis and solution progress to avoid work loss
+   - Confirm file locations with user for all generated fix documentation
+   - No manual saving steps required from user
+   - Verify all fix reports and documentation are properly persisted in the appropriate directory
+   
    - Update relevant documentation if needed
    - Add or update code comments for clarity
    - Update changelog if the project maintains one

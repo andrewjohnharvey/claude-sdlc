@@ -23,6 +23,61 @@ Follow this systematic approach to perform security audit: **$ARGUMENTS**
    - Identify project-specific security requirements
    - Load security configuration and standards
 
+### Project Context and Security Standards
+
+#### CLAUDE.md Integration
+- Check if CLAUDE.md exists in project root directory
+- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific security guidelines with `claude init`?"
+- If present, reference CLAUDE.md for:
+  - Security standards and coding practices for the project
+  - Compliance requirements (OWASP, NIST, security frameworks)
+  - Authentication and authorization patterns
+  - Data protection and privacy requirements
+  - Security testing and validation standards
+  - Vulnerability handling and incident response procedures
+- Apply CLAUDE.md security standards throughout the audit process
+
+### MCP-Enhanced Security Analysis
+
+Leverage MCP (Model Context Protocol) servers for enhanced security audit capabilities:
+
+- **Context7**: For security documentation lookup and compliance standards validation
+  - Retrieve latest security best practices and vulnerability databases
+  - Validate against industry standards (OWASP, NIST, CIS Controls)
+  - Cross-reference with framework-specific security guidelines
+
+- **Sequential Thinking**: For complex vulnerability analysis and threat modeling
+  - Structured analysis of attack surfaces and threat vectors
+  - Step-by-step risk assessment and impact analysis
+  - Multi-layered security evaluation with decision trees
+
+- **Convex**: For database security and real-time feature vulnerability assessment
+  - Analyze database schema and access control configurations
+  - Review real-time data flow for security vulnerabilities
+  - Assess subscription and mutation security patterns
+
+- **Playwright**: For web application security testing and automation
+  - Automated security testing of authentication flows
+  - Cross-site scripting (XSS) and injection vulnerability scanning
+  - Session management and CSRF protection testing
+
+- **Shadcn UI**: For component security standards and accessibility compliance
+  - Validate component security patterns and data handling
+  - Check for accessibility vulnerabilities and compliance gaps
+  - Review input validation and sanitization in UI components
+
+- **Other custom MCP servers**: As available in your environment
+  - Leverage project-specific security tools and scanners
+  - Integrate with organization-specific security policies
+  - Connect to proprietary vulnerability databases
+
+**Use MCP capabilities throughout the security audit for:**
+- Security documentation and standards validation
+- Structured threat modeling and risk assessment
+- Database security analysis and access control review
+- Automated security testing and vulnerability scanning
+- UI/UX security review including accessibility compliance
+
 3. **Parallel Security Analysis Coordination and Sub-Agent Spawning**
    - **Independent Security Analysis Categories**: Spawn sub-agents for parallel security analysis using the Task tool:
      - **Sub-Agent A**: "Perform code security analysis for $ARGUMENTS security audit"
@@ -77,11 +132,18 @@ Follow this systematic approach to perform security audit: **$ARGUMENTS**
    - Document attack vectors and scenarios
 
 6. **Report Generation**
-   - Create timestamped report: `.claude-sdlc/builds/$(date +%Y-%m-%d-%H%M)-security-audit.md`
+   - Create timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%d-%H%M)-security-audit.md`
    - Structure findings by category and severity
    - Include specific file references and remediation steps
    - Provide executive summary with risk overview
    - Add compliance and regulatory considerations
+
+   #### File Persistence Guidelines
+   - Automatically save all security audit reports and vulnerability assessments immediately after generation
+   - Save intermediate security analysis results to avoid work loss during comprehensive audits
+   - Confirm file locations with user for all generated security content
+   - No manual saving steps required from user
+   - Verify all security audit files are properly persisted in the appropriate directory
 
 7. **Remediation Guidance**
    - Provide specific fix recommendations for each issue

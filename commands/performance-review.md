@@ -27,11 +27,69 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - Load project-specific optimization requirements and constraints
    - **Quality Gate**: Confirm understanding of project architecture and performance requirements
 
+### Project Context and Performance Standards
+
+#### CLAUDE.md Integration
+- Check if CLAUDE.md exists in project root directory
+- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific performance guidelines with `claude init`?"
+- If present, reference CLAUDE.md for:
+  - Performance standards and acceptable response time thresholds
+  - Resource utilization preferences and optimization priorities
+  - Technology-specific performance patterns (TypeScript, database queries, caching)
+  - Build and runtime performance requirements
+  - Testing and monitoring preferences for performance validation
+- Apply CLAUDE.md performance standards throughout the review process
+
 3. **Technology Stack Detection and Framework Analysis**
    - Identify project technology stack from configuration files
    - Detect framework-specific performance patterns and anti-patterns
    - Load framework-specific optimization guidelines
    - **Quality Gate**: Confirm technology stack understanding before proceeding
+
+### MCP-Enhanced Performance Analysis
+
+Leverage MCP (Model Context Protocol) servers for enhanced performance analysis capabilities:
+
+- **Context7**: For performance documentation lookup and optimization best practices
+  - Look up official performance documentation for detected frameworks and libraries
+  - Validate optimization patterns against authoritative sources
+  - Access performance benchmarking standards and industry best practices
+  - Retrieve framework-specific performance guides and troubleshooting resources
+
+- **Sequential Thinking**: For complex performance analysis and bottleneck identification
+  - Structure multi-step performance bottleneck analysis workflows
+  - Evaluate trade-offs between different optimization approaches
+  - Analyze complex performance interdependencies and cascading effects
+  - Generate systematic performance improvement decision trees
+
+- **Convex**: For database performance and real-time feature optimization analysis
+  - Analyze database schema design for performance implications
+  - Review real-time data subscription patterns and optimization opportunities
+  - Examine query performance and indexing strategies
+  - Assess real-time feature performance and scalability patterns
+
+- **Playwright**: For web performance testing and user experience metrics
+  - Generate automated performance testing scenarios
+  - Create web vitals measurement and monitoring scripts
+  - Analyze user interaction performance and response times
+  - Develop visual regression testing for performance-impacting changes
+
+- **Shadcn UI**: For component performance standards and rendering optimization
+  - Validate component usage against performance best practices
+  - Check for optimal component composition and rendering patterns
+  - Analyze accessibility performance implications
+  - Review component re-rendering and state management efficiency
+
+- **Other custom MCP servers**: As available in your environment
+  - Leverage project-specific MCP servers for domain-specific performance analysis
+  - Integrate with monitoring and observability MCP providers
+  - Use specialized performance tooling through MCP integrations
+
+**MCP Integration Guidelines**:
+- Use available MCP capabilities throughout the performance review for documentation validation, structured analysis, database optimization, automated testing, and component performance review
+- Combine MCP insights with static code analysis for comprehensive performance evaluation
+- Document MCP-derived recommendations separately for enhanced traceability
+- **Quality Gate**: Ensure MCP integrations enhance rather than replace core performance analysis
 
 4. **Parallel Performance Analysis Coordination and Sub-Agent Spawning**
    - **Independent Performance Analysis Categories**: Spawn sub-agents for parallel analysis using the Task tool:
@@ -123,6 +181,13 @@ Follow this systematic approach to review performance: **$ARGUMENTS**
    - Document quick wins vs. long-term optimization strategies
    - Include estimated effort and impact for each recommendation
    - **Quality Gate**: Verify report completeness and actionability
+
+   #### File Persistence Guidelines
+   - Automatically save all performance review reports and analysis files immediately after generation
+   - Save intermediate performance analysis results to avoid work loss during comprehensive reviews
+   - Confirm file locations with user for all generated performance content
+   - No manual saving steps required from user
+   - Verify all performance review files are properly persisted in the appropriate directory
 
 9. **Optimization Strategy and Implementation Guidance**
    - Suggest specific performance improvements for each identified issue
