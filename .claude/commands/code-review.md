@@ -25,32 +25,8 @@ Follow this systematic approach to review code: **$ARGUMENTS**
    - Load project-specific configuration from `.claude-sdlc/config/` if available
    - Review existing architecture documentation in `.claude-sdlc/architecture/`
    - Check for coding standards and style guides in project root or docs
-
-### Project Context and Standards Review
-
-#### CLAUDE.md Integration
-- Check if CLAUDE.md exists in project root directory
-- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific code standards with `claude init`?"
-- If present, reference CLAUDE.md for:
-  - Code quality standards and TypeScript strict typing requirements
-  - Architectural patterns and implementation preferences
-  - Testing requirements and validation standards
-  - Error handling and edge case testing approaches
-- Apply CLAUDE.md standards throughout the code review process
-
-### MCP-Enhanced Analysis
-
-   - **Context7**: For documentation lookup and best practice validation during review
-   - **Playwright**: For UI/UX testing validation and browser compatibility analysis
-   - **Shadcn UI**: For component standards compliance and accessibility review
-   - **Other custom MCP servers**: As available in your environment
-
-   Use available MCP capabilities throughout the review process for:
-   - Code quality validation against official documentation
-   - Complex architectural analysis with structured thinking
-   - Database performance and schema optimization review
-   - UI/UX testing automation and validation
-   - Component library compliance and accessibility standards
+   - **MCP Enhancement**: Use Context7 to lookup official documentation for detected frameworks and libraries
+   - **MCP Enhancement**: Use Sequential Thinking for complex analysis requiring structured evaluation
 
 3. **Pre-Analysis Repository State**
    - Verify repository is in clean state or document uncommitted changes
@@ -190,12 +166,6 @@ Follow this systematic approach to review code: **$ARGUMENTS**
       - Specific file references with line numbers for each issue
       - Code examples and suggested improvements
       - Actionable recommendations with implementation guidance
-    - **File Persistence Guidelines**:
-      - Automatically save all review reports and analysis files immediately after generation
-      - Save intermediate analysis results to avoid work loss during long reviews
-      - Confirm file locations with user for all generated review content
-      - No manual saving steps required from user
-      - Verify all review files are properly persisted in `.claude-sdlc/reviews/` directory
     - **Do not modify source code** - only analyze and report findings
 
 14. **Priority Assessment and Categorization**

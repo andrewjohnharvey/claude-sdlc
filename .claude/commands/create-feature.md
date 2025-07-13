@@ -46,38 +46,12 @@ Complete the requirements gathering:
 
 **ONLY AFTER USER CONFIRMS** - Proceed to create the feature plan.
 
-### MCP-Enhanced Planning
-
-Before proceeding with feature planning, check for available MCP servers that could enhance this process:
-
-- **Context7**: For documentation lookup and best practice validation during planning
-- **Shadcn UI**: For component planning and design system alignment
-- **Other custom MCP servers**: As available in your environment
-
-Use available MCP capabilities throughout the planning process when beneficial, especially for:
-- Complex requirement analysis and validation
-- Technology stack decision-making  
-- User story prioritization and breakdown
-- Integration planning with existing systems
-
 ### Planning Documentation Process
 
 #### Step 1: Architecture Context Review
 - Check if `.claude-sdlc/architecture/` directory exists
 - If it exists, review relevant architecture documentation
 - Note any patterns, constraints, or guidelines that apply to **$ARGUMENTS**
-
-#### Step 1.5: Project Guidelines Review
-
-##### CLAUDE.md Integration
-- Check if CLAUDE.md exists in project root directory
-- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific planning guidelines with `claude init`?"
-- If present, reference CLAUDE.md for:
-  - Development workflow preferences and incremental planning approaches
-  - Technology stack preferences (TypeScript, validation patterns)
-  - Feature planning and implementation guidelines
-  - Quality standards and testing requirements for new features
-- Incorporate CLAUDE.md preferences into feature planning and task breakdown
 
 #### Step 2: Create Feature Task List
 - Derive a concise feature identifier from **$ARGUMENTS** (kebab-case, no spaces)
@@ -86,12 +60,6 @@ Use available MCP capabilities throughout the planning process when beneficial, 
   - User stories and acceptance criteria  
   - Atomic development tasks as checkboxes: `- [ ] Task description`
   - Logical task ordering: planning → setup → implementation → testing → documentation
-
-#### File Persistence
-- Automatically save the feature plan file after creation
-- Confirm the file location and path with the user
-- Ensure no manual saving steps are required
-- Verify file was successfully written to `.claude-sdlc/features/` directory
 
 #### Step 3: Planning Complete - STOP HERE
 - Present the feature summary and task list to user
