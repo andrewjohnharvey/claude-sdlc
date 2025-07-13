@@ -32,6 +32,12 @@ You can install Claude-SDLC with a single command:
 curl -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/install.sh | bash
 ```
 
+If you encounter caching issues, try:
+
+```bash
+curl -H "Cache-Control: no-cache" -fsSL https://raw.githubusercontent.com/andrewjohnharvey/claude-sdlc/main/install.sh | bash
+```
+
 ### Advanced Installation Options
 You can customize the installation with various options:
 
