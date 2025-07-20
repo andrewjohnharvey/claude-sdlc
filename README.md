@@ -4,7 +4,7 @@ A command suite for Claude Code that provides a complete software development li
 
 ## What is Claude-SDLC?
 
-Claude-SDLC is an AI-powered toolkit for software developers who want to accelerate their development workflow. It automates repetitive SDLC tasks, enforces best practices, and improves development speed without sacrificing quality. Perfect for developers looking to:
+Claude-SDLC is an AI-powered toolkit for software developers who want to accelerate their development workflow. It provides 9 custom slash commands that automate repetitive SDLC tasks, enforces best practices, and improves development speed without sacrificing quality. Perfect for developers looking to:
 
 - Plan and implement features faster with AI assistance
 - Ensure consistent code quality through automated reviews
@@ -123,9 +123,14 @@ claude mcp restart
 
 ## Available Commands
 
-After installation, the following commands will be available in Claude Code:
+After installation, the following 9 commands will be available in Claude Code:
 
 ### Core Development Commands
+
+- **`/idea`** - Quick brain dump for development ideas during workflow
+  - Capture spontaneous thoughts and implementation ideas
+  - Store development insights for later reference
+  - Maintain context during complex workflows
 
 - **`/create-feature`** - Plan and define a new feature with comprehensive task breakdown
   - Analyzes requirements and creates atomic task lists

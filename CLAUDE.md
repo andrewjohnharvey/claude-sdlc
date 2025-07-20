@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Claude-SDLC is an AI-powered Software Development Life Cycle (SDLC) command suite designed for Claude Code. It provides 8 custom slash commands that automate and streamline common development workflows through structured, repeatable processes.
+Claude-SDLC is an AI-powered Software Development Life Cycle (SDLC) command suite designed for Claude Code. It provides 9 custom slash commands that automate and streamline common development workflows through structured, repeatable processes.
 
 **Core Purpose**: Transform ad-hoc development prompts into systematic, well-defined workflows that ensure consistent best practices and improve development speed without sacrificing quality.
 
 ## Available Commands
 
-The project provides 8 main slash commands that work together to form a complete SDLC workflow:
+The project provides 9 main slash commands that work together to form a complete SDLC workflow:
 
 - `/create-feature` - Plan and define new features with atomic task breakdowns
 - `/build` - Implement planned features automatically with AI assistance  
@@ -20,6 +20,21 @@ The project provides 8 main slash commands that work together to form a complete
 - `/performance-review` - Performance bottleneck identification and optimization suggestions
 - `/generate-tests` - Automated test case generation for improved coverage
 - `/fix-issues` - Targeted bug fixing and issue resolution workflow
+- `/idea` - Capture and refine implementation ideas with structured planning
+
+## Project Philosophy and Simplification Principles
+
+### Keep It Simple
+- **Core Principle**: We're just copying files with a bash script
+- **No Over-Engineering**: Avoid complex validations or unnecessary features
+- **Minimal Testing**: Only test what's essential for reliability
+- **Easy to Maintain**: Simple code is better than clever code
+
+### Development Guidelines
+- Focus on reliability over features
+- Prefer simple file operations over complex logic
+- Documentation should match implementation exactly
+- When in doubt, choose the simpler approach
 
 ## Installation and Setup
 
@@ -157,7 +172,8 @@ claude-sdlc/
 │   ├── architecture-review.md
 │   ├── performance-review.md
 │   ├── generate-tests.md
-│   └── fix-issues.md
+│   ├── fix-issues.md
+│   └── idea.md
 └── examples/                   # Usage examples and guides
     ├── Real-World-Examples.md
     ├── customization.md

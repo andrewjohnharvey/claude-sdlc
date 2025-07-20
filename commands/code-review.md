@@ -1,10 +1,23 @@
 # Code Review
 
-Comprehensive code quality analysis and review with flexible scope targeting
+Comprehensive code quality analysis and review with flexible scope targeting using parallel sub-agent architecture
+
+## Sub-Agent Architecture Overview
+
+This code review process utilizes **7 specialized sub-agents** working in parallel to provide comprehensive analysis:
+- **Sub-Agent A**: Style and Formatting Analysis
+- **Sub-Agent B**: Correctness and Logic Review
+- **Sub-Agent C**: Security Assessment and Vulnerability Scan
+- **Sub-Agent D**: Performance Analysis and Optimization
+- **Sub-Agent E**: Maintainability and Code Quality Evaluation
+- **Sub-Agent F**: Testing Coverage and Quality Analysis
+- **Sub-Agent G**: Dependency and Configuration Review
+
+**Key Benefits**: Parallel execution reduces review time, specialized focus improves analysis depth, comprehensive coverage ensures no quality aspects are missed.
 
 ## Instructions
 
-Follow this systematic approach to review code: **$ARGUMENTS**
+Follow this systematic approach to review code using sub-agent coordination: **$ARGUMENTS**
 
 1. **Scope Determination and Target Identification**
    - **Targeted Review** (when $ARGUMENTS provided):
@@ -69,174 +82,153 @@ Follow this systematic approach to review code: **$ARGUMENTS**
 
 5. **Parallel Analysis Coordination and Sub-Agent Spawning**
    - **Independent Analysis Categories**: Spawn sub-agents for parallel analysis using the Task tool:
-     - **Sub-Agent A**: "Perform style and formatting analysis for $ARGUMENTS code review"
-     - **Sub-Agent B**: "Perform correctness and logic review for $ARGUMENTS code review"
-     - **Sub-Agent C**: "Perform security assessment and vulnerability scan for $ARGUMENTS code review"
-     - **Sub-Agent D**: "Perform performance analysis and optimization review for $ARGUMENTS code review"
-     - **Sub-Agent E**: "Perform maintainability and code quality evaluation for $ARGUMENTS code review"
-     - **Sub-Agent F**: "Perform testing coverage and quality analysis for $ARGUMENTS code review"
-     - **Sub-Agent G**: "Perform dependency and configuration review for $ARGUMENTS code review"
+     - **Sub-Agent A**: "Perform comprehensive style and formatting analysis for $ARGUMENTS code review - analyze naming conventions, code organization, import patterns, dead code identification, and formatting consistency"
+     - **Sub-Agent B**: "Perform detailed correctness and logic review for $ARGUMENTS code review - analyze algorithms, control flow, error handling, input validation, and boundary conditions"
+     - **Sub-Agent C**: "Perform thorough security assessment and vulnerability scan for $ARGUMENTS code review - check for injection risks, XSS vulnerabilities, authentication issues, and secrets management"
+     - **Sub-Agent D**: "Perform comprehensive performance analysis and optimization review for $ARGUMENTS code review - identify bottlenecks, memory usage patterns, database query optimization, and caching opportunities"
+     - **Sub-Agent E**: "Perform maintainability and code quality evaluation for $ARGUMENTS code review - assess code complexity, documentation quality, SOLID principles adherence, and refactoring opportunities"
+     - **Sub-Agent F**: "Perform testing coverage and quality analysis for $ARGUMENTS code review - evaluate test presence, coverage completeness, test quality, and testing strategy effectiveness"
+     - **Sub-Agent G**: "Perform dependency and configuration review for $ARGUMENTS code review - check dependency management, version compatibility, configuration security, and deployment settings"
 
-   - **Sub-Agent Coordination**:
-     - Use multiple Task tool calls in a single message for parallel execution
-     - Each sub-agent receives the file list from step 4 and focuses on their specific analysis category
-     - Include context: project scope, technology stack, and coding standards from steps 1-3
-     - Sub-agents report findings in their category and reference specific files with line numbers
-     - Main agent aggregates all sub-agent findings for comprehensive report generation
+   - **Sub-Agent Coordination Protocol**:
+     - **Parallel Execution**: Use multiple Task tool calls in a single message for concurrent analysis
+     - **Context Sharing**: Each sub-agent receives:
+       - Complete file list from step 4 with categorization
+       - Project scope and technology stack from steps 1-3
+       - Coding standards and CLAUDE.md requirements from step 2
+       - MCP server capabilities available for enhanced analysis
+     - **Reporting Standards**: Sub-agents must provide:
+       - Detailed findings with specific file references and line numbers
+       - Priority classification (Critical, High, Medium, Low)
+       - Code examples and suggested improvements
+       - Integration with available MCP tools for validation
 
-   - **Analysis Distribution**:
-     - All sub-agents analyze the same file set but focus on different quality aspects
-     - No file conflicts since this is analysis-only (no code modifications)
-     - Each sub-agent provides detailed findings for their assigned category
-     - **Quality Gate**: Verify all parallel analysis tasks complete before report generation
+   - **Analysis Distribution and Quality Gates**:
+     - **Scope Coverage**: All sub-agents analyze the same file set but focus on different quality aspects
+     - **Conflict Prevention**: Analysis-only approach ensures no file modification conflicts
+     - **Completion Verification**: Main agent must verify all 7 sub-agent tasks complete before report generation
+     - **Result Aggregation**: Consolidate findings from all sub-agents into comprehensive report structure
 
-6. **Style and Formatting Analysis** *(This section now handled by Sub-Agent A in parallel)*
-   - **Naming Conventions**
-     - Verify consistent variable, function, and class naming
-     - Check for meaningful and descriptive names
-     - Identify abbreviations or unclear naming patterns
-     - Ensure naming follows language and framework conventions
+6. **Sub-Agent Analysis Execution** *(All analysis sections 6-12 are now executed in parallel by specialized sub-agents)*
 
-   - **Code Organization and Structure**
-     - Check file and directory organization
-     - Verify proper import/export patterns
-     - Identify dead code and unused imports
-     - Flag commented-out code blocks for removal
-     - Assess code formatting consistency
+   **Sub-Agent A: Style and Formatting Analysis**
+   - Execute comprehensive style review covering:
+     - Naming conventions (variables, functions, classes)
+     - Code organization and file structure
+     - Import/export patterns and dead code identification
+     - Formatting consistency and commented-out code removal
 
-7. **Correctness and Logic Review** *(This section now handled by Sub-Agent B in parallel)*
-   - **Algorithm and Logic Analysis**
-     - Analyze control flow and conditional logic
-     - Check for off-by-one errors and boundary conditions
-     - Verify loop termination conditions
-     - Identify potential race conditions in concurrent code
+   **Sub-Agent B: Correctness and Logic Review**
+   - Execute detailed logic analysis covering:
+     - Algorithm correctness and control flow validation
+     - Boundary conditions and off-by-one error detection
+     - Error handling and exception propagation assessment
+     - Input validation and race condition identification
 
-   - **Error Handling Assessment**
-     - Verify proper exception handling and error propagation
-     - Check for appropriate error messages and logging
-     - Ensure graceful degradation for failure scenarios
-     - Review input validation and sanitization
+   **Sub-Agent C: Security Assessment and Vulnerability Scan**
+   - Execute thorough security review covering:
+     - Common vulnerability patterns (SQL injection, XSS, CSRF)
+     - Authentication and authorization logic validation
+     - Secrets management and sensitive data handling
+     - Encryption implementation and logging security assessment
 
-8. **Security Assessment and Vulnerability Scan** *(This section now handled by Sub-Agent C in parallel)*
-   - **Common Vulnerability Patterns**
-     - Scan for SQL injection risks in database queries
-     - Check for XSS vulnerabilities in user input handling
-     - Identify potential CSRF vulnerabilities
-     - Review authentication and authorization logic
+   **Sub-Agent D: Performance Analysis and Optimization**
+   - Execute comprehensive performance review covering:
+     - Algorithm efficiency and bottleneck identification
+     - Database query optimization and N+1 pattern detection
+     - Memory usage patterns and resource allocation analysis
+     - Caching strategies and asynchronous operation opportunities
 
-   - **Secrets and Sensitive Data**
-     - Check for hard-coded passwords, API keys, or tokens
-     - Verify proper environment variable usage
-     - Review data encryption and hashing implementations
-     - Assess logging practices for sensitive information leakage
+   **Sub-Agent E: Maintainability and Code Quality Evaluation**
+   - Execute detailed maintainability assessment covering:
+     - Code complexity metrics and SOLID principles adherence
+     - Documentation quality and comment accuracy
+     - Code duplication identification and refactoring opportunities
+     - API documentation completeness and setup instruction clarity
 
-9. **Performance Analysis and Optimization** *(This section now handled by Sub-Agent D in parallel)*
-   - **Algorithm Efficiency**
-     - Identify potential bottlenecks and inefficient algorithms
-     - Check for N+1 query patterns in database operations
-     - Review memory usage patterns and potential leaks
-     - Assess computational complexity of critical functions
+   **Sub-Agent F: Testing Coverage and Quality Analysis**
+   - Execute comprehensive testing review covering:
+     - Test presence validation and coverage gap identification
+     - Test quality assessment and assertion meaningfulness
+     - Test strategy evaluation and organization structure
+     - Edge case coverage and test performance analysis
 
-   - **Resource Usage**
-     - Check for excessive memory allocations
-     - Identify blocking operations that could be asynchronous
-     - Review caching strategies and opportunities
-     - Assess database query optimization needs
+   **Sub-Agent G: Dependency and Configuration Review**
+   - Execute thorough dependency and config analysis covering:
+     - Dependency management and vulnerability assessment
+     - Version compatibility and license compliance review
+     - Configuration security and environment-specific settings
+     - Deployment configuration and secrets management validation
 
-10. **Maintainability and Code Quality Evaluation** *(This section now handled by Sub-Agent E in parallel)*
-   - **Code Complexity Assessment**
-     - Flag overly complex or long functions (>50 lines)
-     - Identify deeply nested code structures
-     - Check for code duplication and refactoring opportunities
-     - Assess adherence to SOLID principles
+7. **Sub-Agent Results Aggregation and Report Generation**
+    - **Results Collection**: Gather completed analysis from all 7 sub-agents
+    - **Cross-Reference Validation**: Identify overlapping findings and consolidate duplicates
+    - **Priority Synthesis**: Merge priority classifications from all sub-agents using highest severity rule
+    - **Comprehensive Report Creation**: Generate timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%d-%H%M)-code-review.md`
 
-   - **Documentation and Comments**
-     - Verify adequate inline documentation
-     - Check for outdated or misleading comments
-     - Assess API documentation completeness
-     - Review README and setup instructions
+    - **Enhanced Report Structure**:
+      - **Executive Summary**: Scope definition, sub-agent coordination summary, and critical findings overview
+      - **Sub-Agent Analysis Results**: Dedicated section for each sub-agent's findings with:
+        - Analysis category and scope covered
+        - Key findings summary with priority breakdown
+        - Specific file references with line numbers
+        - Code examples and improvement recommendations
+      - **Consolidated Findings Matrix**: Cross-referenced issues by priority (Critical, High, Medium, Low)
+      - **Actionable Recommendations**: Implementation guidance prioritized by impact and effort
+      - **Sub-Agent Performance Metrics**: Analysis completion status and coverage verification
 
-11. **Testing Coverage and Quality Analysis** *(This section now handled by Sub-Agent F in parallel)*
-    - **Test Presence and Coverage**
-      - Identify components lacking unit tests
-      - Check for integration and end-to-end test coverage
-      - Verify test quality and meaningful assertions
-      - Assess test maintainability and clarity
-
-    - **Test Strategy Evaluation**
-      - Review test organization and structure
-      - Check for proper mocking and test isolation
-      - Verify edge case and error condition testing
-      - Assess test performance and execution time
-
-12. **Dependency and Configuration Review** *(This section now handled by Sub-Agent G in parallel)*
-    - **Dependency Management**
-      - Check for outdated or vulnerable dependencies using package files
-      - Identify unused or redundant dependencies
-      - Verify proper version pinning and lock files
-      - Review license compatibility for dependencies
-
-    - **Configuration Security**
-      - Review configuration files for security issues
-      - Check environment-specific configurations
-      - Verify proper secrets management
-      - Assess deployment and build configurations
-
-13. **Report Generation and Documentation**
-    - Create comprehensive timestamped report: `.claude-sdlc/reviews/$(date +%Y-%m-%d-%H%M)-code-review.md`
-    - **Report Structure**:
-      - Executive summary with scope and key findings
-      - Detailed findings by category (Critical, High, Medium, Low priority)
-      - Specific file references with line numbers for each issue
-      - Code examples and suggested improvements
-      - Actionable recommendations with implementation guidance
-    - **File Persistence Guidelines**:
-      - Automatically save all review reports and analysis files immediately after generation
-      - Save intermediate analysis results to avoid work loss during long reviews
+    - **File Persistence and Quality Assurance**:
+      - Automatically save all review reports and sub-agent analysis files immediately after generation
+      - Save intermediate sub-agent results to prevent work loss during long reviews
+      - Create individual sub-agent report files: `.claude-sdlc/reviews/$(date +%Y-%m-%d-%H%M)-subreport-[A-G].md`
       - Confirm file locations with user for all generated review content
-      - No manual saving steps required from user
       - Verify all review files are properly persisted in `.claude-sdlc/reviews/` directory
-    - **Do not modify source code** - only analyze and report findings
+      - **Code Modification Restriction**: Sub-agents and main agent only analyze and report - no source code modifications
 
-14. **Priority Assessment and Categorization**
-    - **Critical Issues** (immediate attention required):
-      - Security vulnerabilities
-      - Logic errors that could cause data loss
-      - Performance issues affecting user experience
+8. **Sub-Agent Priority Assessment and Categorization**
+    - **Cross-Agent Priority Synthesis**: Consolidate priority classifications from all sub-agents
+    - **Critical Issues** (immediate attention required - flagged by any sub-agent):
+      - Security vulnerabilities (Sub-Agent C findings)
+      - Logic errors that could cause data loss (Sub-Agent B findings)
+      - Performance issues affecting user experience (Sub-Agent D findings)
+      - Critical dependency vulnerabilities (Sub-Agent G findings)
 
-    - **High Priority** (address soon):
-      - Code quality issues affecting maintainability
-      - Missing test coverage for critical functionality
-      - Dependency vulnerabilities with available fixes
+    - **High Priority** (address soon - multiple sub-agent consensus):
+      - Code quality issues affecting maintainability (Sub-Agent E findings)
+      - Missing test coverage for critical functionality (Sub-Agent F findings)
+      - Authentication/authorization flaws (Sub-Agent C findings)
+      - Significant performance bottlenecks (Sub-Agent D findings)
 
-    - **Medium/Low Priority** (address in next iteration):
-      - Style inconsistencies
-      - Documentation improvements
-      - Refactoring opportunities
+    - **Medium/Low Priority** (address in next iteration - single sub-agent findings):
+      - Style inconsistencies (Sub-Agent A findings)
+      - Documentation improvements (Sub-Agent E findings)
+      - Refactoring opportunities (Sub-Agent E findings)
+      - Minor configuration optimizations (Sub-Agent G findings)
 
-15. **Integration with Development Workflow**
+9. **Integration with Development Workflow and Sub-Agent Coordination**
+    - **Sub-Agent Workflow Integration**: Each sub-agent provides workflow-specific recommendations
     - Reference related issues or tickets if reviewing specific changes
-    - Suggest appropriate branch protection rules or CI/CD improvements
-    - Recommend code review checklist items for future reviews
-    - Document patterns and anti-patterns discovered for team knowledge
+    - Suggest appropriate branch protection rules or CI/CD improvements based on sub-agent findings
+    - Recommend code review checklist items derived from sub-agent analysis patterns
+    - Document patterns and anti-patterns discovered across all sub-agent categories for team knowledge
 
-16. **Next Steps and Actionable Guidance**
-    - **Immediate Actions** for critical issues:
-      - Run `/fix-issue <issue-number>` for specific bugs
-      - Use project linting tools: `npm run lint` or `flake8` or equivalent
-      - Run `/security-audit` if security vulnerabilities found
-      - Address dependency vulnerabilities: `npm audit fix` or equivalent
+10. **Next Steps and Actionable Guidance from Sub-Agent Analysis**
+    - **Immediate Actions** prioritized by sub-agent findings:
+      - **Security (Sub-Agent C)**: Run `/security-audit` if vulnerabilities found
+      - **Logic (Sub-Agent B)**: Run `/fix-issue <issue-number>` for specific bugs
+      - **Style (Sub-Agent A)**: Use project linting tools: `npm run lint` or `flake8` or equivalent
+      - **Dependencies (Sub-Agent G)**: Address vulnerabilities: `npm audit fix` or equivalent
 
-    - **Follow-up Recommendations**:
-      - Run `/generate-tests` for components lacking test coverage
-      - Consider `/performance-audit` if performance concerns identified
-      - Update documentation if maintainability issues found
-      - Re-run `/code-review $ARGUMENTS` after fixes to verify improvements
+    - **Follow-up Recommendations** based on sub-agent analysis:
+      - **Testing (Sub-Agent F)**: Run `/generate-tests` for components lacking coverage
+      - **Performance (Sub-Agent D)**: Consider `/performance-audit` if concerns identified
+      - **Maintainability (Sub-Agent E)**: Update documentation if issues found
+      - **Comprehensive**: Re-run `/code-review $ARGUMENTS` after fixes to verify improvements
 
-    - **Long-term Improvements**:
-      - Establish coding standards if not present
-      - Set up automated code quality tools (linters, formatters)
-      - Implement pre-commit hooks for quality gates
-      - Schedule regular code review sessions for knowledge sharing
+    - **Long-term Improvements** informed by sub-agent patterns:
+      - Establish coding standards based on Sub-Agent A style analysis
+      - Set up automated quality tools recommended by Sub-Agent E
+      - Implement security practices suggested by Sub-Agent C
+      - Schedule regular reviews incorporating sub-agent methodology for knowledge sharing
 
 Remember to maintain high standards for code quality while providing constructive, actionable feedback. Focus on teaching and improving the codebase systematically rather than just identifying problems.
