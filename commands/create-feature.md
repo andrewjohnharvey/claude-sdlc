@@ -71,13 +71,62 @@ Use available MCP capabilities throughout the planning process when beneficial, 
 
 ##### CLAUDE.md Integration
 - Check if CLAUDE.md exists in project root directory
-- If missing, prompt: "No CLAUDE.md found. Would you like to initialize project-specific planning guidelines with `claude init`?"
-- If present, reference CLAUDE.md for:
+- If missing, silently proceed without CLAUDE.md integration (no user interruption)
+- If present, reference CLAUDE.md for comprehensive feature planning guidance:
+
+**Core Development Patterns** (if available):
   - Development workflow preferences and incremental planning approaches
-  - Technology stack preferences (TypeScript, validation patterns)
+  - Technology stack preferences and validation patterns
   - Feature planning and implementation guidelines
   - Quality standards and testing requirements for new features
-- Incorporate CLAUDE.md preferences into feature planning and task breakdown
+
+**Copy-Paste Patterns** (if available):
+  - Error handling patterns (Result vs try-catch decision trees)
+  - Form submission patterns with validation approaches
+  - Component structure patterns for complex features
+  - Security patterns for input sanitization
+  - Loading states and empty states patterns
+  - Dialog and modal interaction patterns
+
+**Technology Stack Validation** (if available):
+  - Frontend framework compatibility requirements
+  - Backend integration patterns and constraints
+  - UI component library alignment and standards
+  - Form handling and validation approaches
+  - Database operation patterns
+
+**Testing Strategy Integration** (if available):
+  - Required testing checklist items before feature completion
+  - Manual testing steps specific to the project
+  - Component and integration testing patterns
+  - Build and deployment verification requirements
+
+**Security and Compliance Guidelines** (if available):
+  - Input sanitization requirements for user-facing features
+  - Authentication and authorization patterns
+  - Data validation and error handling requirements
+  - Security testing and audit considerations
+
+**Performance and Optimization Patterns** (if available):
+  - Caching strategies for data-heavy features
+  - Optimistic updates for improved user experience
+  - Query optimization approaches and best practices
+  - Loading and error state handling patterns
+
+**Architectural Constraints** (if available):
+  - Component organization patterns and folder structures
+  - Data flow patterns (real-time vs static data)
+  - Integration patterns with existing services
+  - Migration considerations and compatibility requirements
+
+**Quality Gates and Completion Criteria** (if available):
+  - Build success and compilation requirements
+  - Linting and type checking standards
+  - Code pattern compliance requirements
+  - Existing functionality preservation verification
+
+- Incorporate all available CLAUDE.md preferences into feature planning and task breakdown
+- Silently skip any missing sections without user notification
 
 #### Step 2: Create Feature Task List
 - Derive a concise feature identifier from **$ARGUMENTS** (kebab-case, no spaces)
